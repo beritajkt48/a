@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penangguhan Aktivitas Member JKT48 - 2024</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .countdown-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .countdown-box {
+        background-color: #333;
+        border-radius: 15px;
+        padding: 20px;
+        width: 320px;
+        color: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .info-box {
+        display: flex;
+        justify-content: space-between;
+        background-color: #444;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    .member-name {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .generation {
+        font-size: 16px;
+        color: #ddd;
+    }
+    .date-box {
+        background-color: #555;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .countdown-timer-box {
+        background-color: #444;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    .countdown-timer {
+        font-size: 20px;
+        color: #e74c3c;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .timer-segment {
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>Penangguhan Aktivitas Member JKT48 - 2024</h1>
+
+<div class="countdown-container">
+    <!-- Indira Seruni Countdown -->
+    <div class="countdown-box">
+        <div class="info-box">
+            <div class="member-name">Indira Seruni</div>
+            <div class="generation">Generasi 10</div>
+        </div>
+        <div class="date-box">
+            <div>Mulai Hukuman</div>
+            <div>11 November 2024</div>
+        </div>
+        <div class="date-box">
+            <div>Akhir Hukuman</div>
+            <div>12 Desember 2024 23:59 WIB</div>
+        </div>
+        <div class="countdown-timer-box">
+            <div id="countdown-indira" class="countdown-timer"></div>
+        </div>
+    </div>
+
+    <!-- Amanda Sukma Countdown -->
+    <div class="countdown-box">
+        <div class="info-box">
+            <div class="member-name">Amanda Sukma</div>
+            <div class="generation">Generasi 10</div>
+        </div>
+        <div class="date-box">
+            <div>Mulai Hukuman</div>
+            <div>10 November 2024</div>
+        </div>
+        <div class="date-box">
+            <div>Akhir Hukuman</div>
+            <div>12 Desember 2024 23:59 WIB</div>
+        </div>
+        <div class="countdown-timer-box">
+            <div id="countdown-amanda" class="countdown-timer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk memulai hitungan mundur dengan waktu UTC+07:00
+    function startCountdown(elementId, endDateStr) {
+        const countdownElement = document.getElementById(elementId);
+
+        // Mengatur zona waktu UTC+07:00 dengan manual offset
+        const offset = 7 * 60 * 60 * 1000; // Offset 7 jam dalam milidetik
+        const endDate = new Date(endDateStr).getTime() - offset;
+
+        function updateCountdown() {
+            const now = new Date().getTime() - offset;
+            const distance = endDate - now;
+
+            if (distance < 0) {
+                countdownElement.innerHTML = "Hukuman Selesai";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownElement.innerHTML = `
+                <div class="timer-segment">${days} Hari</div>
+                <div class="timer-segment">${hours} Jam</div>
+                <div class="timer-segment">${minutes} Menit</div>
+                <div class="timer-segment">${seconds} Detik</div>
+            `;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    }
+
+    // Memulai hitungan mundur untuk Indira Seruni dengan waktu UTC+07:00
+    startCountdown("countdown-indira", "2024-12-12T23:59:00");
+
+    // Memulai hitungan mundur untuk Amanda Sukma dengan waktu UTC+07:00
+    startCountdown("countdown-amanda", "2024-12-12T23:59:00");
+</script>
+
+</body>
+</html>
