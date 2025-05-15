@@ -91,10 +91,24 @@
         <a href="https://berita.com/link2" target="_blank">berita.com/link2</a>
       </li>
       <li>
-        <span class="label">Judul 3 - Edisi Bulan Maret</span>
-        <a href="https://berita.com/link3" target="_blank">berita.com/link3</a>
+        <span class="label">CODE JOURNAL - JKT48 Digital Photobook</span>
+        <a href="https://drive.google.com/file/d/1WJ4Y3KLaLdIswivxgQWcDpmb0Nvkt59L/view?usp=sharing" target="_blank">Google Drive</a>
       </li>
     </ul>
   </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const redirected = localStorage.getItem('firstClickRedirected');
+        if (!redirected) {
+          e.preventDefault(); // cegah link default dulu
+          localStorage.setItem('firstClickRedirected', 'true');
+          window.location.href = 'https://s.shopee.co.id/2LLkoD2J0u';
+        }
+        // jika sudah pernah redirect, biarkan link berfungsi normal
+      });
+    });
+  </script>
 </body>
 </html>
