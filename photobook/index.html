@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Koleksi Digital Photobook JKT48</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #1e1e2f, #3a2d6f, #1f2e48, #4e2953);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #fff;
+      padding: 40px 20px;
+    }
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      margin-bottom: 30px;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      margin: 15px 0;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 20px;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+
+    li:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    a {
+      text-decoration: none;
+      color: #ff9ae0;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .label {
+      display: block;
+      font-size: 16px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Koleksi Digital Photobook JKT48<br>Bonus Pembelian Video Call</h1>
+    <ul>
+      <li>
+        <span class="label">Judul 1 - Edisi Bulan Januari</span>
+        <a href="https://berita.com/link1" target="_blank">berita.com/link1</a>
+      </li>
+      <li>
+        <span class="label">Judul 2 - Edisi Bulan Februari</span>
+        <a href="https://berita.com/link2" target="_blank">berita.com/link2</a>
+      </li>
+      <li>
+        <span class="label">Judul 3 - Edisi Bulan Maret</span>
+        <a href="https://berita.com/link3" target="_blank">berita.com/link3</a>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
