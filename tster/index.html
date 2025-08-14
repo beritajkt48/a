@@ -59,176 +59,124 @@
       width: 100%;
       height: 100%;
       border: none;
-      pointer-events: none; /* Mencegah klik pada iframe YouTube */
     }
 
-    /* Overlay untuk mencegah klik pada logo YouTube */
-    .video-overlay {
+    /* Updated controls styling to match the provided design */
+    .controls {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 0 0 12px 12px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      top: -5px;
+    }
+
+    /* New progress bar at the top */
+    .progress-bar-container {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+    }
+
+    .progress-bar {
       height: 100%;
-      z-index: 10;
-      pointer-events: none;
+      background: #ff0000;
+      width: 0%;
+      transition: width 0.1s ease;
     }
 
-    .controls {
-      margin-top: 25px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      backdrop-filter: blur(5px);
+    .progress-bar-container:hover {
+      height: 6px;
     }
 
+    /* Updated control buttons to match design */
     .control-button {
-      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+      background: transparent;
       color: white;
       border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
+      padding: 8px;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+      font-size: 18px;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-width: 100px;
       justify-content: center;
+      width: 40px;
+      height: 40px;
     }
 
     .control-button:hover {
-      background: linear-gradient(135deg, #ff3742 0%, #ff2731 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    .control-button:active {
-      transform: translateY(0);
-    }
-
-    /* Menambahkan kontrol seek bar untuk maju mundur video */
-    .seek-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .seek-bar {
-      flex: 1;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
-      outline: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .seek-bar::-webkit-slider-thumb {
-      appearance: none;
-      width: 18px;
-      height: 18px;
-      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
-      transition: all 0.3s ease;
-    }
-
-    .seek-bar::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-
-    .seek-bar::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
-      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
-      border-radius: 50%;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
-    }
-
-    .time-display {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.8);
-      font-weight: 500;
-      min-width: 45px;
-      text-align: center;
-    }
-
+    /* Volume slider styling */
     .volume-container {
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 15px;
-      border-radius: 8px;
+      gap: 8px;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
     }
 
     #volumeControl {
-      width: 80px;
+      width: 60px;
       height: 4px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       outline: none;
       border-radius: 2px;
       cursor: pointer;
+      -webkit-appearance: none;
     }
 
     #volumeControl::-webkit-slider-thumb {
       appearance: none;
-      width: 14px;
-      height: 14px;
-      background: #ff4757;
+      width: 12px;
+      height: 12px;
+      background: white;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
 
-    #volumeControl::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-
-    #volumeControl::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      background: #ff4757;
-      border-radius: 50%;
-      cursor: pointer;
+    /* Settings and fullscreen buttons */
+    .settings-btn, .fullscreen-btn {
+      background: transparent;
+      color: white;
       border: none;
-    }
-
-    .volume-icon {
-      font-size: 16px;
+      padding: 8px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      font-size: 18px;
+      transition: all 0.2s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .volume-icon:hover {
-      transform: scale(1.1);
+    .settings-btn:hover, .fullscreen-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    #volumeValue {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.8);
-      min-width: 35px;
-      font-weight: 500;
+    /* Remove old seek container styles */
+    .seek-container {
+      display: none;
     }
 
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 16px;
+    .time-display {
+      display: none;
     }
 
     @media (max-width: 768px) {
@@ -275,60 +223,49 @@
     <h1 class="video-title">Hindari Akses YouTube - Video Player Kustom</h1>
     
     <div class="video-wrapper">
-      <!-- Menambahkan overlay untuk mencegah klik -->
-      <div class="video-overlay"></div>
       <iframe id="video" 
               src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
               allowfullscreen>
       </iframe>
-    </div>
-
-    <!-- Kontrol yang diperbaharui dengan seek bar -->
-    <div class="controls">
-      <!-- Seek Bar untuk maju mundur video -->
-      <div class="seek-container">
-        <span class="time-display" id="currentTime">0:00</span>
-        <input type="range" class="seek-bar" id="seekBar" min="0" max="100" value="0" step="0.1">
-        <span class="time-display" id="duration">0:00</span>
+      
+      <!-- New control bar design matching the provided image -->
+      <div class="controls">
+        <!-- Progress bar at the top -->
+        <div class="progress-bar-container" onclick="seekToPosition(event)">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <!-- Play/Pause button -->
+        <button class="control-button" onclick="togglePlay()" id="playPauseBtn">
+          <span id="playPauseIcon">⏸️</span>
+        </button>
+        
+        <!-- Volume controls -->
+        <div class="volume-container">
+          <button class="control-button" onclick="toggleMute()" id="muteBtn">
+            <span id="muteIcon">🔊</span>
+          </button>
+          <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
+        </div>
+        
+        <!-- Settings button -->
+        <button class="settings-btn" onclick="showSettings()">
+          <span>⚙️</span>
+        </button>
+        
+        <!-- Fullscreen button -->
+        <button class="fullscreen-btn" onclick="goFullscreen()">
+          <span>⛶</span>
+        </button>
       </div>
-      
-      <button class="control-button" onclick="togglePlay()">
-        <span id="playPauseIcon">▶</span>
-        <span id="playPauseText">Play</span>
-      </button>
-      
-      <button class="control-button" onclick="seekBackward()">
-        <span>⏪</span>
-        <span>-10s</span>
-      </button>
-      
-      <button class="control-button" onclick="seekForward()">
-        <span>⏩</span>
-        <span>+10s</span>
-      </button>
-      
-      <div class="volume-container">
-        <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
-        <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
-        <span id="volumeValue">100%</span>
-      </div>
-      
-      <button class="control-button" onclick="goFullscreen()">
-        <span>⛶</span>
-        <span>Fullscreen</span>
-      </button>
     </div>
   </div>
 
   <script>
     var player;
     var playPauseIcon = document.getElementById('playPauseIcon');
-    var playPauseText = document.getElementById('playPauseText');
     var muteIcon = document.getElementById('muteIcon');
-    var volumeValue = document.getElementById('volumeValue');
-    var seekBar = document.getElementById('seekBar');
-    var currentTimeDisplay = document.getElementById('currentTime');
-    var durationDisplay = document.getElementById('duration');
+    var progressBar = document.getElementById('progressBar');
     var volumeControl = document.getElementById('volumeControl');
 
     // Load YouTube iframe API
@@ -348,17 +285,15 @@
 
     function onPlayerReady(event) {
       console.log('YouTube player ready');
-      updateDuration();
-      setInterval(updateProgress, 1000);
+      document.getElementById('video').style.pointerEvents = 'auto';
+      setInterval(updateProgress, 100);
     }
 
     function onPlayerStateChange(event) {
       if (event.data == YT.PlayerState.PLAYING) {
-        playPauseIcon.textContent = '⏸';
-        playPauseText.textContent = 'Pause';
+        playPauseIcon.textContent = '⏸️';
       } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-        playPauseIcon.textContent = '▶';
-        playPauseText.textContent = 'Play';
+        playPauseIcon.textContent = '▶️';
       }
     }
 
@@ -369,36 +304,26 @@
         
         if (duration > 0) {
           var progress = (currentTime / duration) * 100;
-          seekBar.value = progress;
-          
-          currentTimeDisplay.textContent = formatTime(currentTime);
-          durationDisplay.textContent = formatTime(duration);
+          progressBar.style.width = progress + '%';
         }
       }
     }
 
-    function updateDuration() {
+    function seekToPosition(event) {
       if (player && player.getDuration) {
+        var rect = event.currentTarget.getBoundingClientRect();
+        var clickX = event.clientX - rect.left;
+        var width = rect.width;
+        var percentage = clickX / width;
         var duration = player.getDuration();
-        if (duration > 0) {
-          durationDisplay.textContent = formatTime(duration);
-        }
-      }
-    }
-
-    function formatTime(seconds) {
-      var minutes = Math.floor(seconds / 60);
-      var remainingSeconds = Math.floor(seconds % 60);
-      return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
-    }
-
-    seekBar.addEventListener('input', function() {
-      if (player && player.getDuration) {
-        var duration = player.getDuration();
-        var seekTime = (this.value / 100) * duration;
+        var seekTime = percentage * duration;
         player.seekTo(seekTime, true);
       }
-    });
+    }
+
+    function showSettings() {
+      alert('Settings menu - Feature coming soon!');
+    }
 
     volumeControl.addEventListener('input', function() {
       setVolume(this.value);
@@ -415,25 +340,9 @@
       }
     }
 
-    function seekBackward() {
-      if (player && player.getCurrentTime) {
-        var currentTime = player.getCurrentTime();
-        player.seekTo(Math.max(0, currentTime - 10), true);
-      }
-    }
-
-    function seekForward() {
-      if (player && player.getCurrentTime && player.getDuration) {
-        var currentTime = player.getCurrentTime();
-        var duration = player.getDuration();
-        player.seekTo(Math.min(duration, currentTime + 10), true);
-      }
-    }
-
     function setVolume(value) {
       if (player && player.setVolume) {
         player.setVolume(value * 100);
-        volumeValue.textContent = Math.round(value * 100) + '%';
         
         if (value == 0) {
           muteIcon.textContent = '🔇';
@@ -452,11 +361,9 @@
           muteIcon.textContent = '🔊';
           var volume = player.getVolume() / 100;
           volumeControl.value = volume;
-          volumeValue.textContent = Math.round(volume * 100) + '%';
         } else {
           player.mute();
           muteIcon.textContent = '🔇';
-          volumeValue.textContent = '0%';
           volumeControl.value = 0;
         }
       }
@@ -481,12 +388,6 @@
         toggleMute();
       } else if (e.code === 'KeyF') {
         goFullscreen();
-      } else if (e.code === 'ArrowLeft') {
-        e.preventDefault();
-        seekBackward();
-      } else if (e.code === 'ArrowRight') {
-        e.preventDefault();
-        seekForward();
       }
     });
   </script>
