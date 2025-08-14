@@ -87,7 +87,7 @@
       bottom: 70px; /* Leave space for custom controls */
       background: transparent;
       z-index: 2;
-      pointer-events: auto; /* Block all clicks to prevent YouTube context menu */
+      pointer-events: none; /* Allow clicks to pass through */
     }
 
     /* Add specific blocking for YouTube interface areas */
@@ -450,6 +450,11 @@
     });
 
     document.addEventListener('contextmenu', function(e) {
+      // Allow right-click on video iframe to show browser context menu
+      if (e.target.id === 'video' || e.target.closest('#video')) {
+        return true; // Allow browser context menu
+      }
+      // Block right-click everywhere else
       e.preventDefault();
       return false;
     });
