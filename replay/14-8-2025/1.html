@@ -196,109 +196,47 @@
       gap: 10px;
     }
 
-    /*  Added popup styles */
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* Added advertisement banner styles */
+    .ad-container {
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .popup-overlay.show {
-      display: flex;
-    }
-
-    .popup-content {
-      background: #1a5f5f;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
+      max-width: 1200px;
+      margin-top: 20px;
       text-align: center;
+    }
+
+    .ad-banner {
+      display: inline-block;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      animation: slideUp 0.3s ease;
-    }
-
-    .popup-banner {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       border-radius: 10px;
-      margin-bottom: 20px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
     }
 
-    .popup-banner:hover {
+    .ad-banner:hover {
       transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 0, 110, 0.5);
     }
 
-    .popup-button {
-      background: #ffd700;
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin: 10px 0;
+    .ad-banner img {
       width: 100%;
-      max-width: 300px;
+      height: auto;
+      display: block;
+      max-width: 800px;
     }
 
-    .popup-button:hover {
-      background: #ffed4e;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-    }
-
-    .popup-info {
-      color: #ccc;
-      font-size: 14px;
-      margin: 15px 0;
-    }
-
-    .popup-close {
+    .ad-text {
       position: absolute;
-      top: 15px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 5px;
-      line-height: 1;
-    }
-
-    .popup-close:hover {
-      color: #ff006e;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { 
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to { 
-        opacity: 1;
-        transform: translateY(0);
-      }
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
     }
 
     /* Updated mobile responsive styles */
@@ -328,14 +266,8 @@
         width: 60px;
       }
 
-      .popup-content {
-        padding: 20px;
-        margin: 20px;
-      }
-
-      .popup-button {
-        font-size: 16px;
-        padding: 12px 25px;
+      .ad-banner img {
+        max-width: 100%;
       }
     }
 
@@ -350,10 +282,6 @@
       
       .video-wrapper {
         height: 300px;
-      }
-
-      .popup-content {
-        padding: 15px;
       }
     }
   </style>
@@ -404,13 +332,11 @@
     </div>
   </div>
 
-  <!--  Added popup HTML structure -->
-  <div class="popup-overlay" id="shopeePopup">
-    <div class="popup-content">
-      <button class="popup-close" onclick="closePopup()">&times;</button>
-      <img src="public/images/jkt48-promo-banner.png" alt="JKT48 Live Streaming" class="popup-banner" onclick="openShopeeLink()">
-      <button class="popup-button" onclick="openShopeeLink()">KLIK DISINI!</button>
-      <div class="popup-info">Link berubah setiap 3 detik</div>
+  <!-- Added advertisement banner below video player -->
+  <div class="ad-container">
+    <div class="ad-banner" onclick="openRotatingLink()">
+      <img src="popup1.png" alt="Belanja Sekarang - Dapatkan Diskon Menarik!" id="adImage">
+      <div class="ad-text">🛒 Klik untuk Belanja Sekarang!</div>
     </div>
   </div>
 
@@ -421,47 +347,26 @@
     var progressBar = document.getElementById('progressBar');
     var volumeControl = document.getElementById('volumeControl');
 
-    //  Added popup functionality
-    var shopeeLinks = [
+    const shopeeLinks = [
       'https://s.shopee.co.id/1qRnjnt7d0',
       'https://s.shopee.co.id/5L1aIkg0Tq',
       'https://s.shopee.co.id/AA6FSlaZdi'
     ];
-    var currentLinkIndex = 0;
-    var linkRotationInterval;
+    
+    let currentLinkIndex = 0;
 
-    function showPopup() {
-      document.getElementById('shopeePopup').classList.add('show');
-      startLinkRotation();
-    }
-
-    function closePopup() {
-      document.getElementById('shopeePopup').classList.remove('show');
-      stopLinkRotation();
-    }
-
-    function startLinkRotation() {
-      // Randomize initial link
-      currentLinkIndex = Math.floor(Math.random() * shopeeLinks.length);
+    function openRotatingLink() {
+      const link = shopeeLinks[currentLinkIndex];
+      window.open(link, '_blank');
       
-      // Rotate links every 3 seconds
-      linkRotationInterval = setInterval(function() {
-        currentLinkIndex = Math.floor(Math.random() * shopeeLinks.length);
-      }, 3000);
+      // Rotate to next link for next click
+      currentLinkIndex = (currentLinkIndex + 1) % shopeeLinks.length;
     }
 
-    function stopLinkRotation() {
-      if (linkRotationInterval) {
-        clearInterval(linkRotationInterval);
-      }
-    }
-
-    function openShopeeLink() {
-      window.open(shopeeLinks[currentLinkIndex], '_blank');
-    }
-
-    // Show popup after 5 seconds
-    setTimeout(showPopup, 5000);
+    // Auto-rotate links every 30 seconds (optional)
+    setInterval(() => {
+      currentLinkIndex = (currentLinkIndex + 1) % shopeeLinks.length;
+    }, 30000);
 
     function loadYouTubeAPI() {
       if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
