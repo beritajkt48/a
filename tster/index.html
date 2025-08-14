@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hindari Akses YouTube - Video Player Kustom</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
       margin: 0;
       padding: 20px;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       display: flex;
       flex-direction: column;
@@ -20,99 +24,248 @@
 
     .video-container {
       width: 100%;
-      max-width: 800px;
-      background: #111;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      max-width: 900px;
+      background: rgba(17, 17, 17, 0.95);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .video-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 15px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
       text-align: center;
-      cursor: default; /* Mencegah cursor pointer */
-      user-select: none; /* Mencegah seleksi teks */
+      cursor: default;
+      user-select: none;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: -0.5px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background: #000;
     }
 
     #video {
       width: 100%;
-      height: auto;
-      border-radius: 4px;
-      background: #000;
+      height: 100%;
+      border: none;
+      pointer-events: none; /* Mencegah klik pada iframe YouTube */
+    }
+
+    /* Overlay untuk mencegah klik pada logo YouTube */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
     }
 
     .controls {
-      margin-top: 15px;
+      margin-top: 25px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
     }
 
     .control-button {
-      background: #ff0000;
+      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
+      padding: 12px 20px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
-      transition: background 0.3s;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      justify-content: center;
     }
 
     .control-button:hover {
-      background: #cc0000;
+      background: linear-gradient(135deg, #ff3742 0%, #ff2731 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+    }
+
+    .control-button:active {
+      transform: translateY(0);
+    }
+
+    /* Menambahkan kontrol seek bar untuk maju mundur video */
+    .seek-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .seek-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .seek-bar::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .seek-bar::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .seek-bar::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
+    }
+
+    .time-display {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      min-width: 45px;
+      text-align: center;
     }
 
     .volume-container {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 15px;
+      border-radius: 8px;
     }
 
     #volumeControl {
-      width: 100px;
-      height: 5px;
-      background: #333;
+      width: 80px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
       outline: none;
-      border-radius: 5px;
+      border-radius: 2px;
+      cursor: pointer;
     }
 
     #volumeControl::-webkit-slider-thumb {
       appearance: none;
-      width: 15px;
-      height: 15px;
-      background: #ff0000;
+      width: 14px;
+      height: 14px;
+      background: #ff4757;
       border-radius: 50%;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #volumeControl::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
     }
 
     #volumeControl::-moz-range-thumb {
-      width: 15px;
-      height: 15px;
-      background: #ff0000;
+      width: 14px;
+      height: 14px;
+      background: #ff4757;
       border-radius: 50%;
       cursor: pointer;
       border: none;
     }
 
+    .volume-icon {
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .volume-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #volumeValue {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      min-width: 35px;
+      font-weight: 500;
+    }
+
     .loading {
       text-align: center;
       padding: 40px;
-      color: #ccc;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 16px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .video-container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      .video-wrapper {
+        height: 300px;
+      }
+      
       .controls {
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
+        padding: 15px;
       }
       
       .video-title {
-        font-size: 20px;
+        font-size: 22px;
+      }
+
+      .seek-container {
+        order: -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-wrapper {
+        height: 250px;
+      }
+      
+      .control-button {
+        padding: 10px 15px;
+        font-size: 13px;
+        min-width: 80px;
       }
     }
   </style>
@@ -121,42 +274,62 @@
   <div class="video-container">
     <h1 class="video-title">Hindari Akses YouTube - Video Player Kustom</h1>
     
-    <iframe id="video" 
-            src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
-            width="100%" 
-            height="450" 
-            frameborder="0" 
-            allowfullscreen>
-    </iframe>
+    <div class="video-wrapper">
+      <!-- Menambahkan overlay untuk mencegah klik -->
+      <div class="video-overlay"></div>
+      <iframe id="video" 
+              src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
+              allowfullscreen>
+      </iframe>
+    </div>
 
-    <!-- Kontrol Manual -->
+    <!-- Kontrol yang diperbaharui dengan seek bar -->
     <div class="controls">
+      <!-- Seek Bar untuk maju mundur video -->
+      <div class="seek-container">
+        <span class="time-display" id="currentTime">0:00</span>
+        <input type="range" class="seek-bar" id="seekBar" min="0" max="100" value="0" step="0.1">
+        <span class="time-display" id="duration">0:00</span>
+      </div>
+      
       <button class="control-button" onclick="togglePlay()">
-        <span id="playPauseIcon">▶️</span> <span id="playPauseText">Play</span>
+        <span id="playPauseIcon">▶</span>
+        <span id="playPauseText">Play</span>
+      </button>
+      
+      <button class="control-button" onclick="seekBackward()">
+        <span>⏪</span>
+        <span>-10s</span>
+      </button>
+      
+      <button class="control-button" onclick="seekForward()">
+        <span>⏩</span>
+        <span>+10s</span>
       </button>
       
       <div class="volume-container">
-        <span>🔊</span>
-        <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1" onchange="setVolume(this.value)">
+        <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
         <span id="volumeValue">100%</span>
       </div>
       
-      <button class="control-button" onclick="goFullscreen()">⛶ Fullscreen</button>
-      
-      <button class="control-button" onclick="toggleMute()">
-        <span id="muteIcon">🔊</span> <span id="muteText">Mute</span>
+      <button class="control-button" onclick="goFullscreen()">
+        <span>⛶</span>
+        <span>Fullscreen</span>
       </button>
     </div>
   </div>
 
-  <!-- Updated JavaScript to work with YouTube iframe API -->
   <script>
     var player;
     var playPauseIcon = document.getElementById('playPauseIcon');
     var playPauseText = document.getElementById('playPauseText');
     var muteIcon = document.getElementById('muteIcon');
-    var muteText = document.getElementById('muteText');
     var volumeValue = document.getElementById('volumeValue');
+    var seekBar = document.getElementById('seekBar');
+    var currentTimeDisplay = document.getElementById('currentTime');
+    var durationDisplay = document.getElementById('duration');
+    var volumeControl = document.getElementById('volumeControl');
 
     // Load YouTube iframe API
     var tag = document.createElement('script');
@@ -164,7 +337,6 @@
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // YouTube API ready callback
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('video', {
         events: {
@@ -176,19 +348,62 @@
 
     function onPlayerReady(event) {
       console.log('YouTube player ready');
+      updateDuration();
+      setInterval(updateProgress, 1000);
     }
 
     function onPlayerStateChange(event) {
       if (event.data == YT.PlayerState.PLAYING) {
-        playPauseIcon.textContent = '⏸️';
+        playPauseIcon.textContent = '⏸';
         playPauseText.textContent = 'Pause';
       } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-        playPauseIcon.textContent = '▶️';
+        playPauseIcon.textContent = '▶';
         playPauseText.textContent = 'Play';
       }
     }
 
-    // Fungsi Play/Pause
+    function updateProgress() {
+      if (player && player.getCurrentTime && player.getDuration) {
+        var currentTime = player.getCurrentTime();
+        var duration = player.getDuration();
+        
+        if (duration > 0) {
+          var progress = (currentTime / duration) * 100;
+          seekBar.value = progress;
+          
+          currentTimeDisplay.textContent = formatTime(currentTime);
+          durationDisplay.textContent = formatTime(duration);
+        }
+      }
+    }
+
+    function updateDuration() {
+      if (player && player.getDuration) {
+        var duration = player.getDuration();
+        if (duration > 0) {
+          durationDisplay.textContent = formatTime(duration);
+        }
+      }
+    }
+
+    function formatTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var remainingSeconds = Math.floor(seconds % 60);
+      return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+    }
+
+    seekBar.addEventListener('input', function() {
+      if (player && player.getDuration) {
+        var duration = player.getDuration();
+        var seekTime = (this.value / 100) * duration;
+        player.seekTo(seekTime, true);
+      }
+    });
+
+    volumeControl.addEventListener('input', function() {
+      setVolume(this.value);
+    });
+
     function togglePlay() {
       if (player && player.getPlayerState) {
         var state = player.getPlayerState();
@@ -200,13 +415,26 @@
       }
     }
 
-    // Fungsi Volume
+    function seekBackward() {
+      if (player && player.getCurrentTime) {
+        var currentTime = player.getCurrentTime();
+        player.seekTo(Math.max(0, currentTime - 10), true);
+      }
+    }
+
+    function seekForward() {
+      if (player && player.getCurrentTime && player.getDuration) {
+        var currentTime = player.getCurrentTime();
+        var duration = player.getDuration();
+        player.seekTo(Math.min(duration, currentTime + 10), true);
+      }
+    }
+
     function setVolume(value) {
       if (player && player.setVolume) {
         player.setVolume(value * 100);
         volumeValue.textContent = Math.round(value * 100) + '%';
         
-        // Update mute icon berdasarkan volume
         if (value == 0) {
           muteIcon.textContent = '🔇';
         } else if (value < 0.5) {
@@ -217,38 +445,34 @@
       }
     }
 
-    // Fungsi Mute/Unmute
     function toggleMute() {
       if (player && player.isMuted) {
         if (player.isMuted()) {
           player.unMute();
           muteIcon.textContent = '🔊';
-          muteText.textContent = 'Mute';
           var volume = player.getVolume() / 100;
-          document.getElementById('volumeControl').value = volume;
+          volumeControl.value = volume;
           volumeValue.textContent = Math.round(volume * 100) + '%';
         } else {
           player.mute();
           muteIcon.textContent = '🔇';
-          muteText.textContent = 'Unmute';
           volumeValue.textContent = '0%';
+          volumeControl.value = 0;
         }
       }
     }
 
-    // Fungsi Fullscreen
     function goFullscreen() {
-      var iframe = document.getElementById('video');
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) {
-        iframe.msRequestFullscreen();
+      var videoWrapper = document.querySelector('.video-wrapper');
+      if (videoWrapper.requestFullscreen) {
+        videoWrapper.requestFullscreen();
+      } else if (videoWrapper.webkitRequestFullscreen) {
+        videoWrapper.webkitRequestFullscreen();
+      } else if (videoWrapper.msRequestFullscreen) {
+        videoWrapper.msRequestFullscreen();
       }
     }
 
-    // Keyboard shortcuts
     document.addEventListener('keydown', function(e) {
       if (e.code === 'Space') {
         e.preventDefault();
@@ -257,6 +481,12 @@
         toggleMute();
       } else if (e.code === 'KeyF') {
         goFullscreen();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        seekBackward();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        seekForward();
       }
     });
   </script>
