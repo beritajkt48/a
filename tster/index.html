@@ -50,7 +50,7 @@
       opacity: 1;
     }
 
-    /* Added transparent overlay to block YouTube interface elements */
+    /* Modified overlay to only block YouTube interface, not video interaction */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -59,7 +59,32 @@
       bottom: 70px; /* Leave space for custom controls */
       background: transparent;
       z-index: 2;
+      pointer-events: none; /* Allow clicks to pass through to video */
+    }
+
+    /* Added specific blocking for YouTube interface elements */
+    .video-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px; /* Block top area where title/buttons appear */
+      background: transparent;
       pointer-events: auto;
+      z-index: 3;
+    }
+
+    .video-overlay::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px; /* Block right area where Watch Later/Share buttons appear */
+      height: 100px;
+      background: transparent;
+      pointer-events: auto;
+      z-index: 3;
     }
 
     .controls {
@@ -167,8 +192,8 @@
               allowfullscreen>
       </iframe>
       
-      <!-- Added transparent overlay to prevent YouTube interface from showing -->
-      <div class="video-overlay" onclick="togglePlay()"></div>
+      <!-- Removed onclick from overlay to prevent blocking video interaction -->
+      <div class="video-overlay"></div>
       
       <div class="controls">
         <div class="progress-bar-container" onclick="seekToPosition(event)">
