@@ -78,7 +78,7 @@
       opacity: 1;
     }
 
-    /* Modified overlay to only block YouTube interface, not video interaction */
+    /* Modified overlay to completely block video interaction and prevent context menu */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -87,32 +87,7 @@
       bottom: 70px; /* Leave space for custom controls */
       background: transparent;
       z-index: 2;
-      pointer-events: none; /* Allow clicks to pass through to video */
-    }
-
-    /* Added specific blocking for YouTube interface elements */
-    .video-overlay::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px; /* Block top area where title/buttons appear */
-      background: transparent;
-      pointer-events: auto;
-      z-index: 3;
-    }
-
-    .video-overlay::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 200px; /* Block right area where Watch Later/Share buttons appear */
-      height: 100px;
-      background: transparent;
-      pointer-events: auto;
-      z-index: 3;
+      pointer-events: auto; /* Block all interactions with video to prevent context menu */
     }
 
     .controls {
@@ -450,10 +425,6 @@
     });
 
     document.addEventListener('contextmenu', function(e) {
-      // Allow right-click on video iframe and video wrapper
-      if (e.target.id === 'video' || e.target.closest('.video-wrapper')) {
-        return true; // Allow right-click on video area
-      }
       e.preventDefault();
       return false;
     });
