@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Video Player</title>
+  <title>Hindari Akses YouTube - Video Player Kustom</title>
   <style>
     body {
       background: #000;
@@ -119,12 +119,15 @@
 </head>
 <body>
   <div class="video-container">
-    <h1 class="video-title">Custom Video Player</h1>
+    <h1 class="video-title">Hindari Akses YouTube - Video Player Kustom</h1>
     
-    <video id="video" controls preload="metadata">
-      <source src="" type="application/x-mpegURL">
-      <p class="loading">Your browser does not support the video tag.</p>
-    </video>
+    <iframe id="video" 
+            src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
+            width="100%" 
+            height="450" 
+            frameborder="0" 
+            allowfullscreen>
+    </iframe>
 
     <!-- Kontrol Manual -->
     <div class="controls">
@@ -146,109 +149,104 @@
     </div>
   </div>
 
-  <!-- Hls.js -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Updated JavaScript to work with YouTube iframe API -->
   <script>
-    // Ganti dengan URL video Anda (HLS/m3u8 atau video biasa)
-    var videoUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; // Contoh video
-    var video = document.getElementById('video');
+    var player;
     var playPauseIcon = document.getElementById('playPauseIcon');
     var playPauseText = document.getElementById('playPauseText');
     var muteIcon = document.getElementById('muteIcon');
     var muteText = document.getElementById('muteText');
     var volumeValue = document.getElementById('volumeValue');
 
-    // Load video dengan HLS jika didukung
-    function loadVideo() {
-      if (videoUrl.includes('.m3u8')) {
-        // Untuk HLS streams
-        if (Hls.isSupported()) {
-          var hls = new Hls();
-          hls.loadSource(videoUrl);
-          hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            console.log('HLS manifest loaded');
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          // Safari native HLS support
-          video.src = videoUrl;
+    // Load YouTube iframe API
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // YouTube API ready callback
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('video', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
         }
-      } else {
-        // Untuk video biasa (MP4, WebM, dll)
-        video.src = videoUrl;
-      }
+      });
     }
 
-    // Fungsi Play/Pause
-    function togglePlay() {
-      if (video.paused) {
-        video.play();
+    function onPlayerReady(event) {
+      console.log('YouTube player ready');
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
         playPauseIcon.textContent = '⏸️';
         playPauseText.textContent = 'Pause';
-      } else {
-        video.pause();
+      } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
         playPauseIcon.textContent = '▶️';
         playPauseText.textContent = 'Play';
       }
     }
 
+    // Fungsi Play/Pause
+    function togglePlay() {
+      if (player && player.getPlayerState) {
+        var state = player.getPlayerState();
+        if (state == YT.PlayerState.PLAYING) {
+          player.pauseVideo();
+        } else {
+          player.playVideo();
+        }
+      }
+    }
+
     // Fungsi Volume
     function setVolume(value) {
-      video.volume = value;
-      volumeValue.textContent = Math.round(value * 100) + '%';
-      
-      // Update mute icon berdasarkan volume
-      if (value == 0) {
-        muteIcon.textContent = '🔇';
-      } else if (value < 0.5) {
-        muteIcon.textContent = '🔉';
-      } else {
-        muteIcon.textContent = '🔊';
+      if (player && player.setVolume) {
+        player.setVolume(value * 100);
+        volumeValue.textContent = Math.round(value * 100) + '%';
+        
+        // Update mute icon berdasarkan volume
+        if (value == 0) {
+          muteIcon.textContent = '🔇';
+        } else if (value < 0.5) {
+          muteIcon.textContent = '🔉';
+        } else {
+          muteIcon.textContent = '🔊';
+        }
       }
     }
 
     // Fungsi Mute/Unmute
     function toggleMute() {
-      if (video.muted) {
-        video.muted = false;
-        muteIcon.textContent = '🔊';
-        muteText.textContent = 'Mute';
-        document.getElementById('volumeControl').value = video.volume;
-        volumeValue.textContent = Math.round(video.volume * 100) + '%';
-      } else {
-        video.muted = true;
-        muteIcon.textContent = '🔇';
-        muteText.textContent = 'Unmute';
-        volumeValue.textContent = '0%';
+      if (player && player.isMuted) {
+        if (player.isMuted()) {
+          player.unMute();
+          muteIcon.textContent = '🔊';
+          muteText.textContent = 'Mute';
+          var volume = player.getVolume() / 100;
+          document.getElementById('volumeControl').value = volume;
+          volumeValue.textContent = Math.round(volume * 100) + '%';
+        } else {
+          player.mute();
+          muteIcon.textContent = '🔇';
+          muteText.textContent = 'Unmute';
+          volumeValue.textContent = '0%';
+        }
       }
     }
 
     // Fungsi Fullscreen
     function goFullscreen() {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) { // Safari
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) { // IE/Edge
-        video.msRequestFullscreen();
+      var iframe = document.getElementById('video');
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
       }
     }
-
-    // Event listeners untuk update UI
-    video.addEventListener('play', function() {
-      playPauseIcon.textContent = '⏸️';
-      playPauseText.textContent = 'Pause';
-    });
-
-    video.addEventListener('pause', function() {
-      playPauseIcon.textContent = '▶️';
-      playPauseText.textContent = 'Play';
-    });
-
-    video.addEventListener('ended', function() {
-      playPauseIcon.textContent = '▶️';
-      playPauseText.textContent = 'Play';
-    });
 
     // Keyboard shortcuts
     document.addEventListener('keydown', function(e) {
@@ -260,11 +258,6 @@
       } else if (e.code === 'KeyF') {
         goFullscreen();
       }
-    });
-
-    // Load video saat halaman dimuat
-    window.addEventListener('load', function() {
-      loadVideo();
     });
   </script>
 </body>
