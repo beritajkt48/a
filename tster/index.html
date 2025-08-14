@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hindari Akses YouTube - Video Player Kustom</title>
+  <title>Aturan Anti Cinta - 14/8/25</title>
   <style>
     * {
       box-sizing: border-box;
     }
 
     body {
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+      background: #000;
       margin: 0;
-      padding: 20px;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
@@ -24,60 +23,129 @@
 
     .video-container {
       width: 100%;
-      max-width: 900px;
-      background: rgba(17, 17, 17, 0.95);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .video-title {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      text-align: center;
-      cursor: default;
-      user-select: none;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-      letter-spacing: -0.5px;
+      max-width: 1200px;
+      background: #000;
+      position: relative;
     }
 
     .video-wrapper {
       position: relative;
       width: 100%;
-      height: 500px;
-      border-radius: 12px;
+      height: 675px;
+      background: linear-gradient(135deg, #4a0e4e 0%, #81007f 50%, #ff006e 100%);
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Added overlay content matching the provided design */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #4a0e4e 0%, #81007f 50%, #ff006e 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      z-index: 2;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .video-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: white;
+      cursor: default;
+      user-select: none;
+      margin: 0;
+    }
+
+    .live-indicator {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto;
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 2px;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .main-title {
+      font-size: 120px;
+      font-weight: bold;
+      color: #ff1493;
+      text-shadow: 0 0 30px #ff1493, 0 0 60px #ff1493, 0 0 90px #ff1493;
+      margin: 0;
+      line-height: 0.9;
+      font-style: italic;
+      transform: perspective(500px) rotateX(15deg);
+    }
+
+    .subtitle-jp {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 20px 0 5px 0;
+      font-weight: 300;
+    }
+
+    .subtitle-romaji {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      font-weight: 300;
+      letter-spacing: 1px;
     }
 
     #video {
       width: 100%;
       height: 100%;
       border: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
     }
 
-    /* Updated controls styling to match the provided design */
+    /* Updated controls to match the exact design from image */
     .controls {
-      margin-top: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 20px;
       display: flex;
       align-items: center;
       gap: 15px;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.9);
-      border-radius: 0 0 12px 12px;
-      backdrop-filter: blur(10px);
-      position: relative;
-      top: -5px;
+      z-index: 3;
     }
 
-    /* New progress bar at the top */
     .progress-bar-container {
       position: absolute;
       top: 0;
@@ -90,16 +158,11 @@
 
     .progress-bar {
       height: 100%;
-      background: #ff0000;
-      width: 0%;
+      background: white;
+      width: 75%;
       transition: width 0.1s ease;
     }
 
-    .progress-bar-container:hover {
-      height: 6px;
-    }
-
-    /* Updated control buttons to match design */
     .control-button {
       background: transparent;
       color: white;
@@ -107,7 +170,7 @@
       padding: 8px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
@@ -120,18 +183,14 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Volume slider styling */
     .volume-container {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
+      gap: 10px;
     }
 
     #volumeControl {
-      width: 60px;
+      width: 80px;
       height: 4px;
       background: rgba(255, 255, 255, 0.3);
       outline: none;
@@ -149,98 +208,61 @@
       cursor: pointer;
     }
 
-    /* Settings and fullscreen buttons */
-    .settings-btn, .fullscreen-btn {
-      background: transparent;
-      color: white;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: all 0.2s ease;
-      width: 40px;
-      height: 40px;
+    .right-controls {
+      margin-left: auto;
       display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .settings-btn:hover, .fullscreen-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Remove old seek container styles */
-    .seek-container {
-      display: none;
-    }
-
-    .time-display {
-      display: none;
+      gap: 10px;
     }
 
     @media (max-width: 768px) {
-      .video-container {
-        padding: 20px;
-        margin: 10px;
+      .main-title {
+        font-size: 60px;
       }
       
       .video-wrapper {
-        height: 300px;
+        height: 400px;
       }
       
       .controls {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-      }
-      
-      .video-title {
-        font-size: 22px;
-      }
-
-      .seek-container {
-        order: -1;
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .video-wrapper {
-        height: 250px;
-      }
-      
-      .control-button {
         padding: 10px 15px;
-        font-size: 13px;
-        min-width: 80px;
+        gap: 10px;
       }
     }
   </style>
 </head>
 <body>
   <div class="video-container">
-    <h1 class="video-title">Hindari Akses YouTube - Video Player Kustom</h1>
-    
     <div class="video-wrapper">
       <iframe id="video" 
               src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
               allowfullscreen>
       </iframe>
       
-      <!-- New control bar design matching the provided image -->
+      <!-- Added overlay content matching the provided design -->
+      <div class="video-overlay">
+        <div class="top-bar">
+          <div class="video-title">Aturan Anti Cinta - 14/8/25</div>
+          <div class="live-indicator">LIVE</div>
+          <div class="brand">NEWERA</div>
+        </div>
+        
+        <div class="main-content">
+          <h1 class="main-title">Aturan<br>Anti<br>Cinta</h1>
+          <div class="subtitle-jp">恋愛禁止条例</div>
+          <div class="subtitle-romaji">Renai Kinshi Jourei</div>
+        </div>
+      </div>
+      
+      <!-- Updated control bar to match exact design -->
       <div class="controls">
-        <!-- Progress bar at the top -->
         <div class="progress-bar-container" onclick="seekToPosition(event)">
           <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <!-- Play/Pause button -->
         <button class="control-button" onclick="togglePlay()" id="playPauseBtn">
-          <span id="playPauseIcon">⏸️</span>
+          <span id="playPauseIcon">▶</span>
         </button>
         
-        <!-- Volume controls -->
         <div class="volume-container">
           <button class="control-button" onclick="toggleMute()" id="muteBtn">
             <span id="muteIcon">🔊</span>
@@ -248,15 +270,15 @@
           <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
         </div>
         
-        <!-- Settings button -->
-        <button class="settings-btn" onclick="showSettings()">
-          <span>⚙️</span>
-        </button>
-        
-        <!-- Fullscreen button -->
-        <button class="fullscreen-btn" onclick="goFullscreen()">
-          <span>⛶</span>
-        </button>
+        <div class="right-controls">
+          <button class="control-button" onclick="showSettings()">
+            <span>⚙</span>
+          </button>
+          
+          <button class="control-button" onclick="goFullscreen()">
+            <span>⛶</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -285,15 +307,18 @@
 
     function onPlayerReady(event) {
       console.log('YouTube player ready');
-      document.getElementById('video').style.pointerEvents = 'auto';
       setInterval(updateProgress, 100);
     }
 
     function onPlayerStateChange(event) {
       if (event.data == YT.PlayerState.PLAYING) {
-        playPauseIcon.textContent = '⏸️';
+        playPauseIcon.textContent = '⏸';
+        document.querySelector('.video-overlay').style.opacity = '0';
+        document.getElementById('video').style.opacity = '1';
       } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-        playPauseIcon.textContent = '▶️';
+        playPauseIcon.textContent = '▶';
+        document.querySelector('.video-overlay').style.opacity = '1';
+        document.getElementById('video').style.opacity = '0';
       }
     }
 
