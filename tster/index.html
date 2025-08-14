@@ -50,6 +50,18 @@
       opacity: 1;
     }
 
+    /* Added transparent overlay to block YouTube interface elements */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 70px; /* Leave space for custom controls */
+      background: transparent;
+      z-index: 2;
+      pointer-events: auto;
+    }
+
     .controls {
       position: absolute;
       bottom: 0;
@@ -154,6 +166,9 @@
               src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
               allowfullscreen>
       </iframe>
+      
+      <!-- Added transparent overlay to prevent YouTube interface from showing -->
+      <div class="video-overlay" onclick="togglePlay()"></div>
       
       <div class="controls">
         <div class="progress-bar-container" onclick="seekToPosition(event)">
