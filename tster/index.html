@@ -238,6 +238,20 @@
               allowfullscreen>
       </iframe>
       
+      <!-- Added overlay content matching the provided design -->
+      <div class="video-overlay">
+        <div class="top-bar">
+          <div class="video-title">Aturan Anti Cinta - 14/8/25</div>
+          <div class="live-indicator">LIVE</div>
+          <div class="brand">NEWERA</div>
+        </div>
+        
+        <div class="main-content">
+          <h1 class="main-title">Aturan<br>Anti<br>Cinta</h1>
+          <div class="subtitle-jp">恋愛禁止条例</div>
+          <div class="subtitle-romaji">Renai Kinshi Jourei</div>
+        </div>
+      </div>
       
       <!-- Updated control bar to match exact design -->
       <div class="controls">
@@ -276,14 +290,21 @@
     var progressBar = document.getElementById('progressBar');
     var volumeControl = document.getElementById('volumeControl');
 
-    // Load YouTube iframe API
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    function loadYouTubeAPI() {
+      if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        onYouTubeIframeAPIReady();
+      }
+    }
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('video', {
+        height: '675',
+        width: '100%',
         videoId: '1e8b2Hcfy18',
         playerVars: {
           'rel': 0,
@@ -298,7 +319,8 @@
           'hl': 'en',
           'iv_load_policy': 3,
           'mute': 0,
-          'playsinline': 1
+          'playsinline': 1,
+          'origin': window.location.origin
         },
         events: {
           'onReady': onPlayerReady,
@@ -310,91 +332,110 @@
     function onPlayerReady(event) {
       console.log('YouTube player ready');
       player.setVolume(100);
+      volumeControl.value = 1;
       setInterval(updateProgress, 100);
+      
+      document.getElementById('video').style.opacity = '1';
     }
 
     function onPlayerStateChange(event) {
       if (event.data == YT.PlayerState.PLAYING) {
         playPauseIcon.textContent = '⏸';
         document.querySelector('.video-overlay').style.opacity = '0';
-        document.getElementById('video').style.opacity = '1';
+        document.querySelector('.video-overlay').style.pointerEvents = 'none';
       } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
         playPauseIcon.textContent = '▶';
         document.querySelector('.video-overlay').style.opacity = '1';
-        document.getElementById('video').style.opacity = '0';
+        document.querySelector('.video-overlay').style.pointerEvents = 'auto';
       }
     }
 
     function updateProgress() {
-      if (player && player.getCurrentTime && player.getDuration) {
-        var currentTime = player.getCurrentTime();
-        var duration = player.getDuration();
-        
-        if (duration > 0) {
-          var progress = (currentTime / duration) * 100;
-          progressBar.style.width = progress + '%';
+      if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+        try {
+          var currentTime = player.getCurrentTime();
+          var duration = player.getDuration();
+          
+          if (duration > 0) {
+            var progress = (currentTime / duration) * 100;
+            progressBar.style.width = progress + '%';
+          }
+        } catch (e) {
+          // Handle API not ready
         }
       }
     }
 
     function seekToPosition(event) {
-      if (player && player.getDuration) {
-        var rect = event.currentTarget.getBoundingClientRect();
-        var clickX = event.clientX - rect.left;
-        var width = rect.width;
-        var percentage = clickX / width;
-        var duration = player.getDuration();
-        var seekTime = percentage * duration;
-        player.seekTo(seekTime, true);
+      if (player && typeof player.getDuration === 'function' && typeof player.seekTo === 'function') {
+        try {
+          var rect = event.currentTarget.getBoundingClientRect();
+          var clickX = event.clientX - rect.left;
+          var width = rect.width;
+          var percentage = clickX / width;
+          var duration = player.getDuration();
+          var seekTime = percentage * duration;
+          player.seekTo(seekTime, true);
+        } catch (e) {
+          console.log('Seek not available yet');
+        }
       }
     }
 
-    function showSettings() {
-      alert('Settings menu - Feature coming soon!');
-    }
-
-    volumeControl.addEventListener('input', function() {
-      setVolume(this.value);
-    });
-
     function togglePlay() {
-      if (player && player.getPlayerState) {
-        var state = player.getPlayerState();
-        if (state == YT.PlayerState.PLAYING) {
-          player.pauseVideo();
-        } else {
-          player.playVideo();
+      if (player && typeof player.getPlayerState === 'function') {
+        try {
+          var state = player.getPlayerState();
+          if (state == YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+          } else {
+            player.playVideo();
+          }
+        } catch (e) {
+          console.log('Player not ready yet');
         }
       }
     }
 
     function setVolume(value) {
-      if (player && player.setVolume) {
-        player.setVolume(value * 100);
-        
-        if (value == 0) {
-          muteIcon.textContent = '🔇';
-        } else if (value < 0.5) {
-          muteIcon.textContent = '🔉';
-        } else {
-          muteIcon.textContent = '🔊';
+      if (player && typeof player.setVolume === 'function') {
+        try {
+          player.setVolume(value * 100);
+          
+          if (value == 0) {
+            muteIcon.textContent = '🔇';
+          } else if (value < 0.5) {
+            muteIcon.textContent = '🔉';
+          } else {
+            muteIcon.textContent = '🔊';
+          }
+        } catch (e) {
+          console.log('Volume control not available yet');
         }
       }
     }
 
     function toggleMute() {
-      if (player && player.isMuted) {
-        if (player.isMuted()) {
-          player.unMute();
-          muteIcon.textContent = '🔊';
-          var volume = player.getVolume() / 100;
-          volumeControl.value = volume;
-        } else {
-          player.mute();
-          muteIcon.textContent = '🔇';
-          volumeControl.value = 0;
+      if (player && typeof player.isMuted === 'function') {
+        try {
+          if (player.isMuted()) {
+            player.unMute();
+            muteIcon.textContent = '🔊';
+            var volume = player.getVolume() / 100;
+            volumeControl.value = volume;
+          } else {
+            player.mute();
+            muteIcon.textContent = '🔇';
+            volumeControl.value = 0;
+          }
+        } catch (e) {
+          console.log('Mute control not available yet');
         }
       }
+    }
+
+    function showSettings() {
+      alert('Settings menu - Feature coming soon!');
     }
 
     function goFullscreen() {
@@ -408,6 +449,10 @@
       }
     }
 
+    volumeControl.addEventListener('input', function() {
+      setVolume(this.value);
+    });
+
     document.addEventListener('keydown', function(e) {
       if (e.code === 'Space') {
         e.preventDefault();
@@ -417,6 +462,10 @@
       } else if (e.code === 'KeyF') {
         goFullscreen();
       }
+    });
+
+    window.addEventListener('load', function() {
+      loadYouTubeAPI();
     });
   </script>
 </body>
