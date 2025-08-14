@@ -3,31 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Player</title>
+  <title>Custom Video Player</title>
   <style>
     body {
       background: #000;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: white;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
-    iframe {
+
+    .video-container {
       width: 100%;
       max-width: 800px;
-      height: 450px;
+      background: #111;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+      cursor: default; /* Mencegah cursor pointer */
+      user-select: none; /* Mencegah seleksi teks */
+    }
+
+    #video {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      background: #000;
+    }
+
+    .controls {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .control-button {
+      background: #ff0000;
+      color: white;
       border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .control-button:hover {
+      background: #cc0000;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #volumeControl {
+      width: 100px;
+      height: 5px;
+      background: #333;
+      outline: none;
+      border-radius: 5px;
+    }
+
+    #volumeControl::-webkit-slider-thumb {
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      background: #ff0000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    #volumeControl::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      background: #ff0000;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .video-title {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <iframe 
-    src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&color=red&controls=1&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1"
-    title="YouTube video player"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
+  <div class="video-container">
+    <h1 class="video-title">Custom Video Player</h1>
+    
+    <video id="video" controls preload="metadata">
+      <source src="" type="application/x-mpegURL">
+      <p class="loading">Your browser does not support the video tag.</p>
+    </video>
+
+    <!-- Kontrol Manual -->
+    <div class="controls">
+      <button class="control-button" onclick="togglePlay()">
+        <span id="playPauseIcon">▶️</span> <span id="playPauseText">Play</span>
+      </button>
+      
+      <div class="volume-container">
+        <span>🔊</span>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1" onchange="setVolume(this.value)">
+        <span id="volumeValue">100%</span>
+      </div>
+      
+      <button class="control-button" onclick="goFullscreen()">⛶ Fullscreen</button>
+      
+      <button class="control-button" onclick="toggleMute()">
+        <span id="muteIcon">🔊</span> <span id="muteText">Mute</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hls.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    // Ganti dengan URL video Anda (HLS/m3u8 atau video biasa)
+    var videoUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; // Contoh video
+    var video = document.getElementById('video');
+    var playPauseIcon = document.getElementById('playPauseIcon');
+    var playPauseText = document.getElementById('playPauseText');
+    var muteIcon = document.getElementById('muteIcon');
+    var muteText = document.getElementById('muteText');
+    var volumeValue = document.getElementById('volumeValue');
+
+    // Load video dengan HLS jika didukung
+    function loadVideo() {
+      if (videoUrl.includes('.m3u8')) {
+        // Untuk HLS streams
+        if (Hls.isSupported()) {
+          var hls = new Hls();
+          hls.loadSource(videoUrl);
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            console.log('HLS manifest loaded');
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          // Safari native HLS support
+          video.src = videoUrl;
+        }
+      } else {
+        // Untuk video biasa (MP4, WebM, dll)
+        video.src = videoUrl;
+      }
+    }
+
+    // Fungsi Play/Pause
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+        playPauseIcon.textContent = '⏸️';
+        playPauseText.textContent = 'Pause';
+      } else {
+        video.pause();
+        playPauseIcon.textContent = '▶️';
+        playPauseText.textContent = 'Play';
+      }
+    }
+
+    // Fungsi Volume
+    function setVolume(value) {
+      video.volume = value;
+      volumeValue.textContent = Math.round(value * 100) + '%';
+      
+      // Update mute icon berdasarkan volume
+      if (value == 0) {
+        muteIcon.textContent = '🔇';
+      } else if (value < 0.5) {
+        muteIcon.textContent = '🔉';
+      } else {
+        muteIcon.textContent = '🔊';
+      }
+    }
+
+    // Fungsi Mute/Unmute
+    function toggleMute() {
+      if (video.muted) {
+        video.muted = false;
+        muteIcon.textContent = '🔊';
+        muteText.textContent = 'Mute';
+        document.getElementById('volumeControl').value = video.volume;
+        volumeValue.textContent = Math.round(video.volume * 100) + '%';
+      } else {
+        video.muted = true;
+        muteIcon.textContent = '🔇';
+        muteText.textContent = 'Unmute';
+        volumeValue.textContent = '0%';
+      }
+    }
+
+    // Fungsi Fullscreen
+    function goFullscreen() {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) { // Safari
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) { // IE/Edge
+        video.msRequestFullscreen();
+      }
+    }
+
+    // Event listeners untuk update UI
+    video.addEventListener('play', function() {
+      playPauseIcon.textContent = '⏸️';
+      playPauseText.textContent = 'Pause';
+    });
+
+    video.addEventListener('pause', function() {
+      playPauseIcon.textContent = '▶️';
+      playPauseText.textContent = 'Play';
+    });
+
+    video.addEventListener('ended', function() {
+      playPauseIcon.textContent = '▶️';
+      playPauseText.textContent = 'Play';
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'KeyM') {
+        toggleMute();
+      } else if (e.code === 'KeyF') {
+        goFullscreen();
+      }
+    });
+
+    // Load video saat halaman dimuat
+    window.addEventListener('load', function() {
+      loadVideo();
+    });
+  </script>
 </body>
 </html>
