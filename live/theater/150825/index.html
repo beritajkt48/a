@@ -237,6 +237,32 @@
       font-weight: bold;
     }
 
+    /* Added refresh link styles */
+    .refresh-link {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #ff006e;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      border: 2px solid #ff006e;
+      transition: all 0.3s ease;
+      z-index: 15;
+      display: none;
+    }
+
+    .refresh-link:hover {
+      background: #ff006e;
+      color: white;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 10px;
@@ -265,6 +291,12 @@
 
       .ad-banner img {
         max-width: 100%;
+      }
+
+      /* Mobile responsive refresh link */
+      .refresh-link {
+        font-size: 12px;
+        padding: 8px 16px;
       }
     }
 
@@ -298,6 +330,11 @@
       </video>
       
       <div class="video-overlay"></div>
+      
+      <!-- Added refresh link for slow loading -->
+      <a href="#" class="refresh-link" id="refreshLink" onclick="refreshPage()">
+        Refresh - Klik disini jika loading lama
+      </a>
       
       <div class="controls">
         <div class="progress-bar-container" onclick="seekToPosition(event)">
@@ -458,6 +495,46 @@
       video.addEventListener('pause', function() {
         playPauseIcon.textContent = '▶';
       });
+
+      let loadingTimeout;
+      let videoLoadStartTime;
+
+      function refreshPage() {
+        location.reload();
+      }
+
+      function showRefreshLink() {
+        document.getElementById('refreshLink').style.display = 'block';
+      }
+
+      function hideRefreshLink() {
+        document.getElementById('refreshLink').style.display = 'none';
+      }
+
+      // Show refresh link if video takes too long to load
+      function startLoadingTimer() {
+        videoLoadStartTime = Date.now();
+        loadingTimeout = setTimeout(() => {
+          if (video.readyState < 3) { // If video hasn't loaded enough data
+            showRefreshLink();
+          }
+        }, 15000); // Show refresh link after 15 seconds
+      }
+
+      // Hide refresh link when video starts playing
+      video.addEventListener('canplay', function() {
+        clearTimeout(loadingTimeout);
+        hideRefreshLink();
+      });
+
+      video.addEventListener('playing', function() {
+        hideRefreshLink();
+      });
+
+      // Start loading timer when page loads
+      window.addEventListener('load', function() {
+        startLoadingTimer();
+      });
     }
 
     function updateProgress() {
@@ -615,3 +692,4 @@
   </script>
 </body>
 </html>
+</merged_code>
