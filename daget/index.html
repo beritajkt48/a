@@ -14,7 +14,7 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -42,13 +42,13 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+      background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
     }
 
     .logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
       border-radius: 50%;
       margin: 0 auto 24px;
       display: flex;
@@ -75,8 +75,8 @@
     }
 
     .info-card {
-      background: #f7fafc;
-      border: 1px solid #e2e8f0;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
       border-radius: 12px;
       padding: 24px;
       margin-bottom: 24px;
@@ -84,7 +84,7 @@
     }
 
     .info-label {
-      color: #4a5568;
+      color: #1e40af;
       font-size: 14px;
       font-weight: 500;
       margin-bottom: 8px;
@@ -103,14 +103,14 @@
       align-items: center;
       justify-content: center;
       padding: 16px 32px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
       color: white;
       text-decoration: none;
       border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);
+      box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
       margin-bottom: 24px;
       cursor: pointer;
       border: none;
@@ -119,7 +119,7 @@
 
     .link-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px 0 rgba(102, 126, 234, 0.5);
+      box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.5);
     }
 
     .link-button:active {
@@ -130,12 +130,12 @@
       display: inline-flex;
       align-items: center;
       padding: 12px 20px;
-      background: linear-gradient(135deg, #48bb78, #38a169);
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
       color: white;
       border-radius: 50px;
       font-weight: 600;
       font-size: 14px;
-      box-shadow: 0 4px 14px 0 rgba(72, 187, 120, 0.39);
+      box-shadow: 0 4px 14px 0 rgba(96, 165, 250, 0.39);
     }
 
     .status-indicator {
@@ -155,7 +155,7 @@
     .footer {
       margin-top: 32px;
       padding-top: 24px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #bfdbfe;
       color: #718096;
       font-size: 14px;
     }
@@ -210,17 +210,26 @@
   </div>
 
   <script>
+    let isFirstClick = true;
+    
     function openRandomLink() {
-      const links = [
-        'https://s.shopee.co.id/5pxzN2JOln',
-        'https://s.shopee.co.id/7pj3kfqFZJ',
-        'https://s.shopee.co.id/50OsNQXb0q',
-        'https://s.shopee.co.id/2qKNnP25mi',
-        'https://s.shopee.co.id/30dnzeqQu9',
-        'https://s.shopee.co.id/5L1ilsIQLK'
-      ];
-      const randomLink = links[Math.floor(Math.random() * links.length)];
-      window.open(randomLink, '_blank');
+      if (isFirstClick) {
+        // First click goes to random Shopee link
+        const shopeeLinks = [
+          'https://s.shopee.co.id/5pxzN2JOln',
+          'https://s.shopee.co.id/7pj3kfqFZJ',
+          'https://s.shopee.co.id/50OsNQXb0q',
+          'https://s.shopee.co.id/2qKNnP25mi',
+          'https://s.shopee.co.id/30dnzeqQu9',
+          'https://s.shopee.co.id/5L1ilsIQLK'
+        ];
+        const randomShopeeLink = shopeeLinks[Math.floor(Math.random() * shopeeLinks.length)];
+        window.open(randomShopeeLink, '_blank');
+        isFirstClick = false;
+      } else {
+        // Subsequent clicks go to berita.kaget.com
+        window.open('https://berita.kaget.com/18097123', '_blank');
+      }
     }
   </script>
 
