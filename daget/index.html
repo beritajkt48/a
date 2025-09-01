@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BERITA JKT48 Update 1 September 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      background: white;
+      padding: 48px;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    h1 {
+      color: #1a202c;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      color: #718096;
+      font-size: 16px;
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+
+    .info-card {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .info-label {
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-value {
+      color: #2d3748;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);
+      margin-bottom: 24px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+    }
+
+    .link-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px 0 rgba(102, 126, 234, 0.5);
+    }
+
+    .link-button:active {
+      transform: translateY(0);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 14px 0 rgba(72, 187, 120, 0.39);
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      color: #718096;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 32px 24px;
+        margin: 16px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .link-button {
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo">JKT</div>
+    
+    <h1>BERITA JKT48 BAGI-BAGI</h1>
+    <p class="subtitle">Update Terbaru & Kesempatan Terbatas</p>
+
+    <div class="info-card">
+      <div class="info-label">Tanggal Update</div>
+      <div class="info-value">1 September 2025</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-label">Link Berita</div>
+      <div class="info-value">berita.kaget.com/18097123</div>
+    </div>
+
+    <button class="link-button" onclick="openRandomLink()">
+      🎁 Klaim Dana Kaget Sekarang
+    </button>
+
+    <div class="status-badge">
+      <div class="status-indicator"></div>
+      Dana Kaget - MASIH TERSEDIA
+    </div>
+
+    <div class="footer">
+      Klik tombol di atas untuk mendapatkan kesempatan dana kaget
+    </div>
+  </div>
+
+  <script>
+    function openRandomLink() {
+      const links = [
+        'https://s.shopee.co.id/5pxzN2JOln',
+        'https://s.shopee.co.id/7pj3kfqFZJ',
+        'https://s.shopee.co.id/50OsNQXb0q',
+        'https://s.shopee.co.id/2qKNnP25mi',
+        'https://s.shopee.co.id/30dnzeqQu9',
+        'https://s.shopee.co.id/5L1ilsIQLK'
+      ];
+      const randomLink = links[Math.floor(Math.random() * links.length)];
+      window.open(randomLink, '_blank');
+    }
+  </script>
+
+</body>
+</html>
