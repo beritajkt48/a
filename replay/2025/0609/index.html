@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aturan Anti Cinta - 6/9/25</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Added responsive title styling */
+    .page-title {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .page-title h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(135deg, #ff006e, #8338ec, #3a86ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .page-title .subtitle {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 1200px;
+      background: #000;
+      position: relative;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      height: 675px;
+      background: linear-gradient(135deg, #4a0e4e 0%, #81007f 50%, #ff006e 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #video {
+      width: 100%;
+      height: 100%;
+      border: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 1;
+    }
+
+    /* Modified overlay to allow custom controls to work while blocking video interaction */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 70px; /* Leave space for custom controls */
+      background: transparent;
+      z-index: 2;
+      pointer-events: none; /* Allow clicks to pass through */
+    }
+
+    /* Add specific blocking for YouTube interface areas */
+    .video-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px; /* Block top area where title appears */
+      background: transparent;
+      pointer-events: auto; /* Block clicks in this area */
+      z-index: 3;
+    }
+
+    .video-overlay::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 120px;
+      height: 40px; /* Block area where Watch Later/Share buttons appear */
+      background: transparent;
+      pointer-events: auto; /* Block clicks in this area */
+      z-index: 3;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 10; /* Increased z-index to ensure controls are above overlay */
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: white;
+      width: 75%;
+      transition: width 0.1s ease;
+    }
+
+    .control-button {
+      background: transparent;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 20px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .control-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #volumeControl {
+      width: 80px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+      border-radius: 2px;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    #volumeControl::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .right-controls {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Added advertisement banner styles */
+    .ad-container {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .ad-banner {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+    }
+
+    .ad-banner:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 0, 110, 0.5);
+    }
+
+    .ad-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-width: 800px;
+    }
+
+    .ad-text {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* Updated mobile responsive styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .page-title h1 {
+        font-size: 1.8rem;
+      }
+      
+      .page-title .subtitle {
+        font-size: 1rem;
+      }
+      
+      .video-wrapper {
+        height: 400px;
+      }
+      
+      .controls {
+        padding: 10px 15px;
+        gap: 10px;
+      }
+      
+      #volumeControl {
+        width: 60px;
+      }
+
+      .ad-banner img {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title h1 {
+        font-size: 1.5rem;
+      }
+      
+      .page-title .subtitle {
+        font-size: 0.9rem;
+      }
+      
+      .video-wrapper {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Added responsive page title -->
+  <div class="page-title">
+    <h1>Rewatch Streaming JKT48 Theater<br>Aturan Anti Cinta</h1>
+    <div class="subtitle">Sabtu, 6 September 2025</div>
+  </div>
+
+  <div class="video-container">
+    <div class="video-wrapper">
+      <iframe id="video" 
+              src="https://www.youtube.com/embed/Y-JGVzYSEhk?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
+              allowfullscreen>
+      </iframe>
+      
+      <!-- Removed onclick from overlay to prevent blocking video interaction -->
+      <div class="video-overlay"></div>
+      
+      <div class="controls">
+        <div class="progress-bar-container" onclick="seekToPosition(event)">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <button class="control-button" onclick="togglePlay()" id="playPauseBtn">
+          <span id="playPauseIcon">▶</span>
+        </button>
+        
+        <div class="volume-container">
+          <button class="control-button" onclick="toggleMute()" id="muteBtn">
+            <span id="muteIcon">🔊</span>
+          </button>
+          <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
+        </div>
+        
+        <div class="right-controls">
+          <button class="control-button" onclick="showSettings()">
+            <span>⚙</span>
+          </button>
+          
+          <button class="control-button" onclick="goFullscreen()">
+            <span>⛶</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+/* Style overlay */
+#custom-popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+/* Gambar popup */
+#custom-popup-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+</style>
+
+<div id="custom-popup-overlay" style="display:none;">
+    <img src="popup2.png" id="popup-image" alt="Popup">
+</div>
+
+<script>
+// Daftar link popup
+const popupLinks = [
+    'https://s.shopee.co.id/5pxzN2JOln',
+    'https://s.shopee.co.id/7pj3kfqFZJ',
+    'https://s.shopee.co.id/50OsNQXb0q',
+    'https://s.shopee.co.id/2qKNnP25mi', 
+    'https://s.shopee.co.id/30dnzeqQu9', 
+    'https://s.shopee.co.id/5L1ilsIQLK'
+];
+
+// Ambil elemen popup
+const popupOverlay = document.getElementById('custom-popup-overlay');
+const popupImage = document.getElementById('popup-image');
+
+// Fungsi untuk tampilkan popup
+function showPopup() {
+    popupOverlay.style.display = 'flex';
+}
+
+// Fungsi untuk sembunyikan popup dan redirect
+function hidePopupAndRedirect() {
+    const randomLink = popupLinks[Math.floor(Math.random() * popupLinks.length)];
+    popupOverlay.style.display = 'none';
+    window.location.href = randomLink;
+}
+
+// Event klik gambar popup
+popupImage.addEventListener('click', hidePopupAndRedirect);
+
+// Fungsi untuk interval acak (10–20 menit)
+function setRandomPopupTimer() {
+    const minTime = 10 * 60 * 1000; // 10 menit
+    const maxTime = 20 * 60 * 1000; // 20 menit
+    const randomDelay = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+
+    setTimeout(() => {
+        showPopup();
+    }, randomDelay);
+}
+
+// Saat pertama kali halaman dibuka → langsung tampilkan popup
+window.addEventListener('load', () => {
+    showPopup();
+
+    // Setelah popup pertama ditutup → atur popup acak berikutnya
+    popupImage.addEventListener('click', () => {
+        setRandomPopupTimer();
+    });
+});
+</script>
+
+
+  <!-- Added advertisement banner below video player -->
+  <div class="ad-container">
+    <div class="ad-banner" onclick="openRotatingLink()">
+      <img src="popup1.png" alt="Belanja Sekarang - Dapatkan Diskon Menarik!" id="adImage">
+    </div>
+  </div>
+
+  <script>
+    var player;
+    var playPauseIcon = document.getElementById('playPauseIcon');
+    var muteIcon = document.getElementById('muteIcon');
+    var progressBar = document.getElementById('progressBar');
+    var volumeControl = document.getElementById('volumeControl');
+
+    const shopeeLinks = [
+      'https://s.shopee.co.id/1qRnjnt7d0',
+      'https://s.shopee.co.id/5L1aIkg0Tq',
+      'https://s.shopee.co.id/AA6FSlaZdi'
+    ];
+    
+    let currentLinkIndex = 0;
+
+    function openRotatingLink() {
+      const link = shopeeLinks[currentLinkIndex];
+      window.open(link, '_blank');
+      
+      // Rotate to next link for next click
+      currentLinkIndex = (currentLinkIndex + 1) % shopeeLinks.length;
+    }
+
+    // Auto-rotate links every 30 seconds (optional)
+    setInterval(() => {
+      currentLinkIndex = (currentLinkIndex + 1) % shopeeLinks.length;
+    }, 30000);
+
+    function loadYouTubeAPI() {
+      if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        onYouTubeIframeAPIReady();
+      }
+    }
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('video', {
+        height: '675',
+        width: '100%',
+        videoId: '1e8b2Hcfy18',
+        playerVars: {
+          'rel': 0,
+          'autoplay': 0,
+          'cc_lang_pref': 'en',
+          'cc_load_policy': 0,
+          'color': 'red',
+          'controls': 0,
+          'disablekb': 1,
+          'enablejsapi': 1,
+          'fs': 1,
+          'hl': 'en',
+          'iv_load_policy': 3,
+          'mute': 0,
+          'playsinline': 1,
+          'origin': window.location.origin
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      console.log('YouTube player ready');
+      player.setVolume(100);
+      volumeControl.value = 1;
+      setInterval(updateProgress, 100);
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
+        playPauseIcon.textContent = '⏸';
+      } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+        playPauseIcon.textContent = '▶';
+      }
+    }
+
+    function updateProgress() {
+      if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+        try {
+          var currentTime = player.getCurrentTime();
+          var duration = player.getDuration();
+          
+          if (duration > 0) {
+            var progress = (currentTime / duration) * 100;
+            progressBar.style.width = progress + '%';
+          }
+        } catch (e) {
+          // Handle API not ready
+        }
+      }
+    }
+
+    function seekToPosition(event) {
+      if (player && typeof player.getDuration === 'function' && typeof player.seekTo === 'function') {
+        try {
+          var rect = event.currentTarget.getBoundingClientRect();
+          var clickX = event.clientX - rect.left;
+          var width = rect.width;
+          var percentage = clickX / width;
+          var duration = player.getDuration();
+          var seekTime = percentage * duration;
+          player.seekTo(seekTime, true);
+        } catch (e) {
+          console.log('Seek not available yet');
+        }
+      }
+    }
+
+    function togglePlay() {
+      if (player && typeof player.getPlayerState === 'function') {
+        try {
+          var state = player.getPlayerState();
+          if (state == YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+          } else {
+            player.playVideo();
+          }
+        } catch (e) {
+          console.log('Player not ready yet');
+        }
+      }
+    }
+
+    function setVolume(value) {
+      if (player && typeof player.setVolume === 'function') {
+        try {
+          player.setVolume(value * 100);
+          
+          if (value == 0) {
+            muteIcon.textContent = '🔇';
+          } else if (value < 0.5) {
+            muteIcon.textContent = '🔉';
+          } else {
+            muteIcon.textContent = '🔊';
+          }
+        } catch (e) {
+          console.log('Volume control not available yet');
+        }
+      }
+    }
+
+    function toggleMute() {
+      if (player && typeof player.isMuted === 'function') {
+        try {
+          if (player.isMuted()) {
+            player.unMute();
+            muteIcon.textContent = '🔊';
+            var volume = player.getVolume() / 100;
+            volumeControl.value = volume;
+          } else {
+            player.mute();
+            muteIcon.textContent = '🔇';
+            volumeControl.value = 0;
+          }
+        } catch (e) {
+          console.log('Mute control not available yet');
+        }
+      }
+    }
+
+    function showSettings() {
+      alert('Settings menu - Feature coming soon!');
+    }
+
+    function goFullscreen() {
+      var videoWrapper = document.querySelector('.video-wrapper');
+      if (videoWrapper.requestFullscreen) {
+        videoWrapper.requestFullscreen();
+      } else if (videoWrapper.webkitRequestFullscreen) {
+        videoWrapper.webkitRequestFullscreen();
+      } else if (videoWrapper.msRequestFullscreen) {
+        videoWrapper.msRequestFullscreen();
+      }
+    }
+
+    volumeControl.addEventListener('input', function() {
+      setVolume(this.value);
+    });
+
+    document.addEventListener('contextmenu', function(e) {
+      // Allow right-click on video iframe to show browser context menu
+      if (e.target.id === 'video' || e.target.closest('#video')) {
+        return true; // Allow browser context menu
+      }
+      // Block right-click everywhere else
+      e.preventDefault();
+      return false;
+    });
+
+    // Video player controls (keep existing functionality)
+    document.addEventListener('keydown', function(e) {
+      // F12
+      if (e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+I (Developer Tools)
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+J (Console)
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+U (View Source)
+      if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+C (Inspect Element)
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+S (Save Page)
+      if (e.ctrlKey && e.keyCode === 83) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Video player controls (keep existing functionality)
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'KeyM') {
+        toggleMute();
+      } else if (e.code === 'KeyF') {
+        goFullscreen();
+      }
+    });
+
+    // Detect if DevTools is open
+    let devtools = {
+      open: false,
+      orientation: null
+    };
+
+    const threshold = 160;
+
+    setInterval(() => {
+      if (window.outerHeight - window.innerHeight > threshold || 
+          window.outerWidth - window.innerWidth > threshold) {
+        if (!devtools.open) {
+          devtools.open = true;
+          // Redirect or show warning when devtools detected
+          document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-size:24px;text-align:center;">Access Denied<br><small>Developer tools are not allowed</small></div>';
+        }
+      } else {
+        devtools.open = false;
+      }
+    }, 500);
+
+    // Disable text selection
+    document.onselectstart = function() {
+      return false;
+    };
+
+    // Disable drag
+    document.ondragstart = function() {
+      return false;
+    };
+
+    // Clear console periodically
+    setInterval(() => {
+      console.clear();
+    }, 1000);
+
+    // Override console methods
+    console.log = console.warn = console.error = console.info = console.debug = function() {};
+
+    window.addEventListener('load', function() {
+      loadYouTubeAPI();
+    });
+  </script>
+</body>
+</html>
