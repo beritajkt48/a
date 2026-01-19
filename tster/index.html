@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -59,20 +59,20 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             border: 2px solid white;
         }
 
         .tab-btn:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .tab-btn.active {
-            background: white;
-            color: #667eea;
-            border-color: white;
+            background: #FF0000;
+            color: white;
+            border-color: #FF0000;
         }
 
         /* Members Grid */
@@ -112,37 +112,38 @@
             width: 100%;
             height: 300px;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
         }
 
         .member-info {
             padding: 20px;
             text-align: center;
+            background: white;
         }
 
         .member-name {
             font-size: 1.3em;
             font-weight: 700;
-            color: #333;
+            color: #1a1a1a;
             margin-bottom: 5px;
         }
 
         .member-nickname {
             font-size: 0.9em;
-            color: #999;
+            color: #FF0000;
             margin-bottom: 15px;
             font-style: italic;
         }
 
         .member-details {
             font-size: 0.9em;
-            color: #555;
+            color: #333;
             margin-bottom: 8px;
             line-height: 1.6;
         }
 
         .member-details strong {
-            color: #667eea;
+            color: #FF0000;
         }
 
         .member-socials {
@@ -170,47 +171,57 @@
         }
 
         .social-twitter {
-            background: #1DA1F2;
+            background: #1a1a1a;
+            border: 2px solid #1a1a1a;
         }
 
         .social-twitter:hover {
-            background: #1a91da;
+            background: #333;
+            border-color: #333;
             transform: translateY(-2px);
         }
 
         .social-instagram {
-            background: #E4405F;
+            background: #FF0000;
+            border: 2px solid #FF0000;
         }
 
         .social-instagram:hover {
-            background: #d63447;
+            background: #cc0000;
+            border-color: #cc0000;
             transform: translateY(-2px);
         }
 
         .social-tiktok {
-            background: #000;
+            background: #1a1a1a;
+            border: 2px solid #1a1a1a;
         }
 
         .social-tiktok:hover {
             background: #333;
+            border-color: #333;
             transform: translateY(-2px);
         }
 
         .social-showroom {
-            background: #FF1493;
+            background: #FF0000;
+            border: 2px solid #FF0000;
         }
 
         .social-showroom:hover {
-            background: #e80d7f;
+            background: #cc0000;
+            border-color: #cc0000;
             transform: translateY(-2px);
         }
 
         .social-idnlive {
             background: #FF0000;
+            border: 2px solid #FF0000;
         }
 
         .social-idnlive:hover {
-            background: #d60000;
+            background: #cc0000;
+            border-color: #cc0000;
             transform: translateY(-2px);
         }
 
@@ -298,91 +309,171 @@
                     id: 1,
                     name: "Akira Atsuko",
                     nickname: "Akira",
+                    photo: "akira_atsuko.png",
                     birthDate: "15 Maret 2003",
                     bloodType: "A",
                     zodiac: "Pisces",
-                    height: "163 cm"
+                    height: "163 cm",
+                    socials: {
+                        twitter: "twitter.com/akira_atsuko",
+                        instagram: "instagram.com/akira_atsuko",
+                        tiktok: "tiktok.com/akira_atsuko",
+                        showroom: "showroom.com/akira_atsuko",
+                        idnlive: "idnlive.com/akira_atsuko"
+                    }
                 },
                 {
                     id: 2,
                     name: "Bella Junia",
                     nickname: "Bella",
+                    photo: "bella_junia.png",
                     birthDate: "22 Juli 2004",
                     bloodType: "B",
                     zodiac: "Cancer",
-                    height: "160 cm"
+                    height: "160 cm",
+                    socials: {
+                        twitter: "twitter.com/bella_junia",
+                        instagram: "instagram.com/bella_junia",
+                        tiktok: "tiktok.com/bella_junia",
+                        showroom: "showroom.com/bella_junia",
+                        idnlive: "idnlive.com/bella_junia"
+                    }
                 },
                 {
                     id: 3,
                     name: "Chika Amelia",
                     nickname: "Chika",
+                    photo: "chika_amelia.png",
                     birthDate: "8 November 2002",
                     bloodType: "O",
                     zodiac: "Scorpio",
-                    height: "158 cm"
+                    height: "158 cm",
+                    socials: {
+                        twitter: "twitter.com/chika_amelia",
+                        instagram: "instagram.com/chika_amelia",
+                        tiktok: "tiktok.com/chika_amelia",
+                        showroom: "showroom.com/chika_amelia",
+                        idnlive: "idnlive.com/chika_amelia"
+                    }
                 },
                 {
                     id: 4,
                     name: "Dina Suryanti",
                     nickname: "Dina",
+                    photo: "dina_suryanti.png",
                     birthDate: "19 Januari 2005",
                     bloodType: "AB",
                     zodiac: "Capricorn",
-                    height: "165 cm"
+                    height: "165 cm",
+                    socials: {
+                        twitter: "twitter.com/dina_suryanti",
+                        instagram: "instagram.com/dina_suryanti",
+                        tiktok: "tiktok.com/dina_suryanti",
+                        showroom: "showroom.com/dina_suryanti",
+                        idnlive: "idnlive.com/dina_suryanti"
+                    }
                 },
                 {
                     id: 5,
                     name: "Erina Putri",
                     nickname: "Erina",
+                    photo: "erina_putri.png",
                     birthDate: "3 Mei 2003",
                     bloodType: "A",
                     zodiac: "Taurus",
-                    height: "162 cm"
+                    height: "162 cm",
+                    socials: {
+                        twitter: "twitter.com/erina_putri",
+                        instagram: "instagram.com/erina_putri",
+                        tiktok: "tiktok.com/erina_putri",
+                        showroom: "showroom.com/erina_putri",
+                        idnlive: "idnlive.com/erina_putri"
+                    }
                 },
                 {
                     id: 6,
                     name: "Fiona Lestari",
                     nickname: "Fiona",
+                    photo: "fiona_lestari.png",
                     birthDate: "27 September 2004",
                     bloodType: "B",
                     zodiac: "Libra",
-                    height: "161 cm"
+                    height: "161 cm",
+                    socials: {
+                        twitter: "twitter.com/fiona_lestari",
+                        instagram: "instagram.com/fiona_lestari",
+                        tiktok: "tiktok.com/fiona_lestari",
+                        showroom: "showroom.com/fiona_lestari",
+                        idnlive: "idnlive.com/fiona_lestari"
+                    }
                 },
                 {
                     id: 7,
                     name: "Gita Kusuma",
                     nickname: "Gita",
+                    photo: "gita_kusuma.png",
                     birthDate: "14 Februari 2003",
                     bloodType: "O",
                     zodiac: "Aquarius",
-                    height: "159 cm"
+                    height: "159 cm",
+                    socials: {
+                        twitter: "twitter.com/gita_kusuma",
+                        instagram: "instagram.com/gita_kusuma",
+                        tiktok: "tiktok.com/gita_kusuma",
+                        showroom: "showroom.com/gita_kusuma",
+                        idnlive: "idnlive.com/gita_kusuma"
+                    }
                 },
                 {
                     id: 8,
                     name: "Hana Yuki",
                     nickname: "Hana",
+                    photo: "hana_yuki.png",
                     birthDate: "6 Agustus 2005",
                     bloodType: "A",
                     zodiac: "Leo",
-                    height: "164 cm"
+                    height: "164 cm",
+                    socials: {
+                        twitter: "twitter.com/hana_yuki",
+                        instagram: "instagram.com/hana_yuki",
+                        tiktok: "tiktok.com/hana_yuki",
+                        showroom: "showroom.com/hana_yuki",
+                        idnlive: "idnlive.com/hana_yuki"
+                    }
                 },
                 {
                     id: 9,
                     name: "Iris Sakura",
                     nickname: "Iris",
+                    photo: "iris_sakura.png",
                     birthDate: "20 Juni 2004",
                     bloodType: "B",
                     zodiac: "Gemini",
-                    height: "160 cm"
+                    height: "160 cm",
+                    socials: {
+                        twitter: "twitter.com/iris_sakura",
+                        instagram: "instagram.com/iris_sakura",
+                        tiktok: "tiktok.com/iris_sakura",
+                        showroom: "showroom.com/iris_sakura",
+                        idnlive: "idnlive.com/iris_sakura"
+                    }
                 },
                 {
                     id: 10,
                     name: "Jasmine Melody",
                     nickname: "Jasmine",
+                    photo: "jasmine_melody.png",
                     birthDate: "12 Desember 2002",
                     bloodType: "O",
                     zodiac: "Sagittarius",
-                    height: "166 cm"
+                    height: "166 cm",
+                    socials: {
+                        twitter: "twitter.com/jasmine_melody",
+                        instagram: "instagram.com/jasmine_melody",
+                        tiktok: "tiktok.com/jasmine_melody",
+                        showroom: "showroom.com/jasmine_melody",
+                        idnlive: "idnlive.com/jasmine_melody"
+                    }
                 }
             ],
             love: [
@@ -390,91 +481,171 @@
                     id: 1,
                     name: "Karina Putri",
                     nickname: "Karina",
+                    photo: "karina_putri.png",
                     birthDate: "9 April 2004",
                     bloodType: "A",
                     zodiac: "Aries",
-                    height: "162 cm"
+                    height: "162 cm",
+                    socials: {
+                        twitter: "twitter.com/karina_putri",
+                        instagram: "instagram.com/karina_putri",
+                        tiktok: "tiktok.com/karina_putri",
+                        showroom: "showroom.com/karina_putri",
+                        idnlive: "idnlive.com/karina_putri"
+                    }
                 },
                 {
                     id: 2,
                     name: "Lina Saputra",
                     nickname: "Lina",
+                    photo: "lina_saputra.png",
                     birthDate: "25 Oktober 2003",
                     bloodType: "B",
                     zodiac: "Scorpio",
-                    height: "161 cm"
+                    height: "161 cm",
+                    socials: {
+                        twitter: "twitter.com/lina_saputra",
+                        instagram: "instagram.com/lina_saputra",
+                        tiktok: "tiktok.com/lina_saputra",
+                        showroom: "showroom.com/lina_saputra",
+                        idnlive: "idnlive.com/lina_saputra"
+                    }
                 },
                 {
                     id: 3,
                     name: "Mika Yuki",
                     nickname: "Mika",
+                    photo: "mika_yuki.png",
                     birthDate: "11 Juli 2005",
                     bloodType: "O",
                     zodiac: "Cancer",
-                    height: "159 cm"
+                    height: "159 cm",
+                    socials: {
+                        twitter: "twitter.com/mika_yuki",
+                        instagram: "instagram.com/mika_yuki",
+                        tiktok: "tiktok.com/mika_yuki",
+                        showroom: "showroom.com/mika_yuki",
+                        idnlive: "idnlive.com/mika_yuki"
+                    }
                 },
                 {
                     id: 4,
                     name: "Nadia Hermawan",
                     nickname: "Nadia",
+                    photo: "nadia_hermawan.png",
                     birthDate: "30 Mei 2004",
                     bloodType: "AB",
                     zodiac: "Gemini",
-                    height: "163 cm"
+                    height: "163 cm",
+                    socials: {
+                        twitter: "twitter.com/nadia_hermawan",
+                        instagram: "instagram.com/nadia_hermawan",
+                        tiktok: "tiktok.com/nadia_hermawan",
+                        showroom: "showroom.com/nadia_hermawan",
+                        idnlive: "idnlive.com/nadia_hermawan"
+                    }
                 },
                 {
                     id: 5,
                     name: "Olivia Chen",
                     nickname: "Olivia",
+                    photo: "olivia_chen.png",
                     birthDate: "18 Januari 2003",
                     bloodType: "A",
                     zodiac: "Capricorn",
-                    height: "160 cm"
+                    height: "160 cm",
+                    socials: {
+                        twitter: "twitter.com/olivia_chen",
+                        instagram: "instagram.com/olivia_chen",
+                        tiktok: "tiktok.com/olivia_chen",
+                        showroom: "showroom.com/olivia_chen",
+                        idnlive: "idnlive.com/olivia_chen"
+                    }
                 },
                 {
                     id: 6,
                     name: "Pita Kusuma",
                     nickname: "Pita",
+                    photo: "pita_kusuma.png",
                     birthDate: "7 Maret 2005",
                     bloodType: "B",
                     zodiac: "Pisces",
-                    height: "164 cm"
+                    height: "164 cm",
+                    socials: {
+                        twitter: "twitter.com/pita_kusuma",
+                        instagram: "instagram.com/pita_kusuma",
+                        tiktok: "tiktok.com/pita_kusuma",
+                        showroom: "showroom.com/pita_kusuma",
+                        idnlive: "idnlive.com/pita_kusuma"
+                    }
                 },
                 {
                     id: 7,
                     name: "Qira Safitri",
                     nickname: "Qira",
+                    photo: "qira_safitri.png",
                     birthDate: "21 November 2002",
                     bloodType: "O",
                     zodiac: "Scorpio",
-                    height: "158 cm"
+                    height: "158 cm",
+                    socials: {
+                        twitter: "twitter.com/qira_safitri",
+                        instagram: "instagram.com/qira_safitri",
+                        tiktok: "tiktok.com/qira_safitri",
+                        showroom: "showroom.com/qira_safitri",
+                        idnlive: "idnlive.com/qira_safitri"
+                    }
                 },
                 {
                     id: 8,
                     name: "Riana Aurora",
                     nickname: "Riana",
+                    photo: "riana_aurora.png",
                     birthDate: "14 Agustus 2004",
                     bloodType: "A",
                     zodiac: "Leo",
-                    height: "165 cm"
+                    height: "165 cm",
+                    socials: {
+                        twitter: "twitter.com/riana_aurora",
+                        instagram: "instagram.com/riana_aurora",
+                        tiktok: "tiktok.com/riana_aurora",
+                        showroom: "showroom.com/riana_aurora",
+                        idnlive: "idnlive.com/riana_aurora"
+                    }
                 },
                 {
                     id: 9,
                     name: "Siti Nurhaliza",
                     nickname: "Siti",
+                    photo: "siti_nurhaliza.png",
                     birthDate: "2 Juni 2003",
                     bloodType: "B",
                     zodiac: "Gemini",
-                    height: "161 cm"
+                    height: "161 cm",
+                    socials: {
+                        twitter: "twitter.com/siti_nurhaliza",
+                        instagram: "instagram.com/siti_nurhaliza",
+                        tiktok: "tiktok.com/siti_nurhaliza",
+                        showroom: "showroom.com/siti_nurhaliza",
+                        idnlive: "idnlive.com/siti_nurhaliza"
+                    }
                 },
                 {
                     id: 10,
                     name: "Tanya Maharani",
                     nickname: "Tanya",
+                    photo: "tanya_maharani.png",
                     birthDate: "16 September 2005",
                     bloodType: "O",
                     zodiac: "Virgo",
-                    height: "162 cm"
+                    height: "162 cm",
+                    socials: {
+                        twitter: "twitter.com/tanya_maharani",
+                        instagram: "instagram.com/tanya_maharani",
+                        tiktok: "tiktok.com/tanya_maharani",
+                        showroom: "showroom.com/tanya_maharani",
+                        idnlive: "idnlive.com/tanya_maharani"
+                    }
                 }
             ],
             passion: [
@@ -482,91 +653,171 @@
                     id: 1,
                     name: "Ulfa Zhaniya",
                     nickname: "Ulfa",
+                    photo: "ulfa_zhaniya.png",
                     birthDate: "23 Februari 2004",
                     bloodType: "A",
                     zodiac: "Pisces",
-                    height: "160 cm"
+                    height: "160 cm",
+                    socials: {
+                        twitter: "twitter.com/ulfa_zhaniya",
+                        instagram: "instagram.com/ulfa_zhaniya",
+                        tiktok: "tiktok.com/ulfa_zhaniya",
+                        showroom: "showroom.com/ulfa_zhaniya",
+                        idnlive: "idnlive.com/ulfa_zhaniya"
+                    }
                 },
                 {
                     id: 2,
                     name: "Vita Mariana",
                     nickname: "Vita",
+                    photo: "vita_mariana.png",
                     birthDate: "10 Juli 2003",
                     bloodType: "B",
                     zodiac: "Cancer",
-                    height: "163 cm"
+                    height: "163 cm",
+                    socials: {
+                        twitter: "twitter.com/vita_mariana",
+                        instagram: "instagram.com/vita_mariana",
+                        tiktok: "tiktok.com/vita_mariana",
+                        showroom: "showroom.com/vita_mariana",
+                        idnlive: "idnlive.com/vita_mariana"
+                    }
                 },
                 {
                     id: 3,
                     name: "Wina Cahya",
                     nickname: "Wina",
+                    photo: "wina_cahya.png",
                     birthDate: "5 Desember 2004",
                     bloodType: "O",
                     zodiac: "Sagittarius",
-                    height: "161 cm"
+                    height: "161 cm",
+                    socials: {
+                        twitter: "twitter.com/wina_cahya",
+                        instagram: "instagram.com/wina_cahya",
+                        tiktok: "tiktok.com/wina_cahya",
+                        showroom: "showroom.com/wina_cahya",
+                        idnlive: "idnlive.com/wina_cahya"
+                    }
                 },
                 {
                     id: 4,
                     name: "Xenia Wijaya",
                     nickname: "Xenia",
+                    photo: "xenia_wijaya.png",
                     birthDate: "28 April 2005",
                     bloodType: "AB",
                     zodiac: "Taurus",
-                    height: "159 cm"
+                    height: "159 cm",
+                    socials: {
+                        twitter: "twitter.com/xenia_wijaya",
+                        instagram: "instagram.com/xenia_wijaya",
+                        tiktok: "tiktok.com/xenia_wijaya",
+                        showroom: "showroom.com/xenia_wijaya",
+                        idnlive: "idnlive.com/xenia_wijaya"
+                    }
                 },
                 {
                     id: 5,
                     name: "Yuki Tanaka",
                     nickname: "Yuki",
+                    photo: "yuki_tanaka.png",
                     birthDate: "17 Mei 2003",
                     bloodType: "A",
                     zodiac: "Taurus",
-                    height: "164 cm"
+                    height: "164 cm",
+                    socials: {
+                        twitter: "twitter.com/yuki_tanaka",
+                        instagram: "instagram.com/yuki_tanaka",
+                        tiktok: "tiktok.com/yuki_tanaka",
+                        showroom: "showroom.com/yuki_tanaka",
+                        idnlive: "idnlive.com/yuki_tanaka"
+                    }
                 },
                 {
                     id: 6,
                     name: "Zara Putri",
                     nickname: "Zara",
+                    photo: "zara_putri.png",
                     birthDate: "31 Januari 2004",
                     bloodType: "B",
                     zodiac: "Aquarius",
-                    height: "162 cm"
+                    height: "162 cm",
+                    socials: {
+                        twitter: "twitter.com/zara_putri",
+                        instagram: "instagram.com/zara_putri",
+                        tiktok: "tiktok.com/zara_putri",
+                        showroom: "showroom.com/zara_putri",
+                        idnlive: "idnlive.com/zara_putri"
+                    }
                 },
                 {
                     id: 7,
                     name: "Aisha Lestari",
                     nickname: "Aisha",
+                    photo: "aisha_lestari.png",
                     birthDate: "12 Agustus 2005",
                     bloodType: "O",
                     zodiac: "Leo",
-                    height: "160 cm"
+                    height: "160 cm",
+                    socials: {
+                        twitter: "twitter.com/aisha_lestari",
+                        instagram: "instagram.com/aisha_lestari",
+                        tiktok: "tiktok.com/aisha_lestari",
+                        showroom: "showroom.com/aisha_lestari",
+                        idnlive: "idnlive.com/aisha_lestari"
+                    }
                 },
                 {
                     id: 8,
                     name: "Bela Siti",
                     nickname: "Bela",
+                    photo: "bela_siti.png",
                     birthDate: "9 September 2003",
                     bloodType: "A",
                     zodiac: "Virgo",
-                    height: "165 cm"
+                    height: "165 cm",
+                    socials: {
+                        twitter: "twitter.com/bela_siti",
+                        instagram: "instagram.com/bela_siti",
+                        tiktok: "tiktok.com/bela_siti",
+                        showroom: "showroom.com/bela_siti",
+                        idnlive: "idnlive.com/bela_siti"
+                    }
                 },
                 {
                     id: 9,
                     name: "Citra Mega",
                     nickname: "Citra",
+                    photo: "citra_mega.png",
                     birthDate: "26 Oktober 2004",
                     bloodType: "B",
                     zodiac: "Scorpio",
-                    height: "161 cm"
+                    height: "161 cm",
+                    socials: {
+                        twitter: "twitter.com/citra_mega",
+                        instagram: "instagram.com/citra_mega",
+                        tiktok: "tiktok.com/citra_mega",
+                        showroom: "showroom.com/citra_mega",
+                        idnlive: "idnlive.com/citra_mega"
+                    }
                 },
                 {
                     id: 10,
                     name: "Dania Safira",
                     nickname: "Dania",
+                    photo: "dania_safira.png",
                     birthDate: "13 Maret 2005",
                     bloodType: "O",
                     zodiac: "Pisces",
-                    height: "163 cm"
+                    height: "163 cm",
+                    socials: {
+                        twitter: "twitter.com/dania_safira",
+                        instagram: "instagram.com/dania_safira",
+                        tiktok: "tiktok.com/dania_safira",
+                        showroom: "showroom.com/dania_safira",
+                        idnlive: "idnlive.com/dania_safira"
+                    }
                 }
             ]
         };
@@ -580,7 +831,7 @@
                 const memberCard = document.createElement('div');
                 memberCard.className = 'member-card';
                 memberCard.innerHTML = `
-                    <img src="member${member.id}.png" alt="${member.name}" class="member-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22300%22%3E%3Crect fill=%22%23ddd%22 width=%22280%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%23999%22 text-anchor=%22middle%22 dy=%22.3em%22%3EMember${member.id}%3C/text%3E%3C/svg%3E'">
+                    <img src="${member.photo}" alt="${member.name}" class="member-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22300%22%3E%3Crect fill=%22%23333%22 width=%22280%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%23999%22 text-anchor=%22middle%22 dy=%22.3em%22%3E${member.name}%3C/text%3E%3C/svg%3E'">
                     <div class="member-info">
                         <div class="member-name">${member.name}</div>
                         <div class="member-nickname">"${member.nickname}"</div>
@@ -591,11 +842,11 @@
                             <div><strong>Tinggi:</strong> ${member.height}</div>
                         </div>
                         <div class="member-socials">
-                            <a href="#" class="social-btn social-twitter" title="Twitter">𝕏</a>
-                            <a href="#" class="social-btn social-instagram" title="Instagram">📷</a>
-                            <a href="#" class="social-btn social-tiktok" title="TikTok">♪</a>
-                            <a href="#" class="social-btn social-showroom" title="Showroom">❤️</a>
-                            <a href="#" class="social-btn social-idnlive" title="IDN Live">🔴</a>
+                            <a href="https://${member.socials.twitter}" target="_blank" class="social-btn social-twitter" title="Twitter">𝕏</a>
+                            <a href="https://${member.socials.instagram}" target="_blank" class="social-btn social-instagram" title="Instagram">📷</a>
+                            <a href="https://${member.socials.tiktok}" target="_blank" class="social-btn social-tiktok" title="TikTok">♪</a>
+                            <a href="https://${member.socials.showroom}" target="_blank" class="social-btn social-showroom" title="Showroom">❤️</a>
+                            <a href="https://${member.socials.idnlive}" target="_blank" class="social-btn social-idnlive" title="IDN Live">🔴</a>
                         </div>
                     </div>
                 `;
