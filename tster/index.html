@@ -1,407 +1,639 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aturan Anti Cinta - 14/8/25</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKT48 Team Fight</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #000;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .video-container {
-      width: 100%;
-      max-width: 1200px;
-      background: #000;
-      position: relative;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      height: 675px;
-      background: linear-gradient(135deg, #4a0e4e 0%, #81007f 50%, #ff006e 100%);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
 
-    #video {
-      width: 100%;
-      height: 100%;
-      border: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 1;
-    }
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
 
-    /* Modified overlay to only block YouTube interface, not video interaction */
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 70px; /* Leave space for custom controls */
-      background: transparent;
-      z-index: 2;
-      pointer-events: none; /* Allow clicks to pass through to video */
-    }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
 
-    /* Added specific blocking for YouTube interface elements */
-    .video-overlay::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px; /* Block top area where title/buttons appear */
-      background: transparent;
-      pointer-events: auto;
-      z-index: 3;
-    }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
 
-    .video-overlay::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 200px; /* Block right area where Watch Later/Share buttons appear */
-      height: 100px;
-      background: transparent;
-      pointer-events: auto;
-      z-index: 3;
-    }
+        .tab-btn {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
 
-    .controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      z-index: 3;
-    }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.3);
+        }
 
-    .progress-bar-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-    }
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
 
-    .progress-bar {
-      height: 100%;
-      background: white;
-      width: 75%;
-      transition: width 0.1s ease;
-    }
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
 
-    .control-button {
-      background: transparent;
-      color: white;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 20px;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-    }
+        .member-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
 
-    .control-button:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .volume-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
 
-    #volumeControl {
-      width: 80px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.3);
-      outline: none;
-      border-radius: 2px;
-      cursor: pointer;
-      -webkit-appearance: none;
-    }
+        .member-photo {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
 
-    #volumeControl::-webkit-slider-thumb {
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      background: white;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+        .member-info {
+            padding: 20px;
+            text-align: center;
+        }
 
-    .right-controls {
-      margin-left: auto;
-      display: flex;
-      gap: 10px;
-    }
+        .member-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
 
-    @media (max-width: 768px) {
-      .main-title {
-        font-size: 60px;
-      }
-      
-      .video-wrapper {
-        height: 400px;
-      }
-      
-      .controls {
-        padding: 10px 15px;
-        gap: 10px;
-      }
-    }
-  </style>
+        .member-nickname {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .member-details {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .member-details strong {
+            color: #667eea;
+        }
+
+        .member-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .social-btn {
+            padding: 8px 12px;
+            font-size: 0.85em;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 70px;
+        }
+
+        .social-twitter {
+            background: #1DA1F2;
+        }
+
+        .social-twitter:hover {
+            background: #1a91da;
+            transform: translateY(-2px);
+        }
+
+        .social-instagram {
+            background: #E4405F;
+        }
+
+        .social-instagram:hover {
+            background: #d63447;
+            transform: translateY(-2px);
+        }
+
+        .social-tiktok {
+            background: #000;
+        }
+
+        .social-tiktok:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .social-showroom {
+            background: #FF1493;
+        }
+
+        .social-showroom:hover {
+            background: #e80d7f;
+            transform: translateY(-2px);
+        }
+
+        .social-idnlive {
+            background: #FF0000;
+        }
+
+        .social-idnlive:hover {
+            background: #d60000;
+            transform: translateY(-2px);
+        }
+
+        /* Hidden tab content */
+        .team-content {
+            display: none;
+        }
+
+        .team-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .members-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+
+            .member-photo {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                gap: 10px;
+            }
+
+            .tab-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="video-container">
-    <div class="video-wrapper">
-      <iframe id="video" 
-              src="https://www.youtube.com/embed/1e8b2Hcfy18?rel=0&autoplay=0&cc_lang_pref=en&cc_load_policy=undefined&color=red&controls=0&disablekb=1&enablejsapi=1&fs=1&hl=en&iv_load_policy=3&mute=0&playsinline=1" 
-              allowfullscreen>
-      </iframe>
-      
-      <!-- Removed onclick from overlay to prevent blocking video interaction -->
-      <div class="video-overlay"></div>
-      
-      <div class="controls">
-        <div class="progress-bar-container" onclick="seekToPosition(event)">
-          <div class="progress-bar" id="progressBar"></div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎤 JKT48 Team Fight 🎤</h1>
+            <p>Kelompok Idola Pendatang Terakhir dari Indonesia</p>
         </div>
-        
-        <button class="control-button" onclick="togglePlay()" id="playPauseBtn">
-          <span id="playPauseIcon">▶</span>
-        </button>
-        
-        <div class="volume-container">
-          <button class="control-button" onclick="toggleMute()" id="muteBtn">
-            <span id="muteIcon">🔊</span>
-          </button>
-          <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1">
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTeam('dream')">Team Dream</button>
+            <button class="tab-btn" onclick="switchTeam('love')">Team Love</button>
+            <button class="tab-btn" onclick="switchTeam('passion')">Team Passion</button>
         </div>
-        
-        <div class="right-controls">
-          <button class="control-button" onclick="showSettings()">
-            <span>⚙</span>
-          </button>
-          
-          <button class="control-button" onclick="goFullscreen()">
-            <span>⛶</span>
-          </button>
+
+        <!-- Team Dream -->
+        <div id="dream" class="team-content active">
+            <div class="members-grid" id="dreamGrid"></div>
         </div>
-      </div>
+
+        <!-- Team Love -->
+        <div id="love" class="team-content">
+            <div class="members-grid" id="loveGrid"></div>
+        </div>
+
+        <!-- Team Passion -->
+        <div id="passion" class="team-content">
+            <div class="members-grid" id="passionGrid"></div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    var player;
-    var playPauseIcon = document.getElementById('playPauseIcon');
-    var muteIcon = document.getElementById('muteIcon');
-    var progressBar = document.getElementById('progressBar');
-    var volumeControl = document.getElementById('volumeControl');
+    <script>
+        // Data Member JKT48
+        const teamData = {
+            dream: [
+                {
+                    id: 1,
+                    name: "Akira Atsuko",
+                    nickname: "Akira",
+                    birthDate: "15 Maret 2003",
+                    bloodType: "A",
+                    zodiac: "Pisces",
+                    height: "163 cm"
+                },
+                {
+                    id: 2,
+                    name: "Bella Junia",
+                    nickname: "Bella",
+                    birthDate: "22 Juli 2004",
+                    bloodType: "B",
+                    zodiac: "Cancer",
+                    height: "160 cm"
+                },
+                {
+                    id: 3,
+                    name: "Chika Amelia",
+                    nickname: "Chika",
+                    birthDate: "8 November 2002",
+                    bloodType: "O",
+                    zodiac: "Scorpio",
+                    height: "158 cm"
+                },
+                {
+                    id: 4,
+                    name: "Dina Suryanti",
+                    nickname: "Dina",
+                    birthDate: "19 Januari 2005",
+                    bloodType: "AB",
+                    zodiac: "Capricorn",
+                    height: "165 cm"
+                },
+                {
+                    id: 5,
+                    name: "Erina Putri",
+                    nickname: "Erina",
+                    birthDate: "3 Mei 2003",
+                    bloodType: "A",
+                    zodiac: "Taurus",
+                    height: "162 cm"
+                },
+                {
+                    id: 6,
+                    name: "Fiona Lestari",
+                    nickname: "Fiona",
+                    birthDate: "27 September 2004",
+                    bloodType: "B",
+                    zodiac: "Libra",
+                    height: "161 cm"
+                },
+                {
+                    id: 7,
+                    name: "Gita Kusuma",
+                    nickname: "Gita",
+                    birthDate: "14 Februari 2003",
+                    bloodType: "O",
+                    zodiac: "Aquarius",
+                    height: "159 cm"
+                },
+                {
+                    id: 8,
+                    name: "Hana Yuki",
+                    nickname: "Hana",
+                    birthDate: "6 Agustus 2005",
+                    bloodType: "A",
+                    zodiac: "Leo",
+                    height: "164 cm"
+                },
+                {
+                    id: 9,
+                    name: "Iris Sakura",
+                    nickname: "Iris",
+                    birthDate: "20 Juni 2004",
+                    bloodType: "B",
+                    zodiac: "Gemini",
+                    height: "160 cm"
+                },
+                {
+                    id: 10,
+                    name: "Jasmine Melody",
+                    nickname: "Jasmine",
+                    birthDate: "12 Desember 2002",
+                    bloodType: "O",
+                    zodiac: "Sagittarius",
+                    height: "166 cm"
+                }
+            ],
+            love: [
+                {
+                    id: 1,
+                    name: "Karina Putri",
+                    nickname: "Karina",
+                    birthDate: "9 April 2004",
+                    bloodType: "A",
+                    zodiac: "Aries",
+                    height: "162 cm"
+                },
+                {
+                    id: 2,
+                    name: "Lina Saputra",
+                    nickname: "Lina",
+                    birthDate: "25 Oktober 2003",
+                    bloodType: "B",
+                    zodiac: "Scorpio",
+                    height: "161 cm"
+                },
+                {
+                    id: 3,
+                    name: "Mika Yuki",
+                    nickname: "Mika",
+                    birthDate: "11 Juli 2005",
+                    bloodType: "O",
+                    zodiac: "Cancer",
+                    height: "159 cm"
+                },
+                {
+                    id: 4,
+                    name: "Nadia Hermawan",
+                    nickname: "Nadia",
+                    birthDate: "30 Mei 2004",
+                    bloodType: "AB",
+                    zodiac: "Gemini",
+                    height: "163 cm"
+                },
+                {
+                    id: 5,
+                    name: "Olivia Chen",
+                    nickname: "Olivia",
+                    birthDate: "18 Januari 2003",
+                    bloodType: "A",
+                    zodiac: "Capricorn",
+                    height: "160 cm"
+                },
+                {
+                    id: 6,
+                    name: "Pita Kusuma",
+                    nickname: "Pita",
+                    birthDate: "7 Maret 2005",
+                    bloodType: "B",
+                    zodiac: "Pisces",
+                    height: "164 cm"
+                },
+                {
+                    id: 7,
+                    name: "Qira Safitri",
+                    nickname: "Qira",
+                    birthDate: "21 November 2002",
+                    bloodType: "O",
+                    zodiac: "Scorpio",
+                    height: "158 cm"
+                },
+                {
+                    id: 8,
+                    name: "Riana Aurora",
+                    nickname: "Riana",
+                    birthDate: "14 Agustus 2004",
+                    bloodType: "A",
+                    zodiac: "Leo",
+                    height: "165 cm"
+                },
+                {
+                    id: 9,
+                    name: "Siti Nurhaliza",
+                    nickname: "Siti",
+                    birthDate: "2 Juni 2003",
+                    bloodType: "B",
+                    zodiac: "Gemini",
+                    height: "161 cm"
+                },
+                {
+                    id: 10,
+                    name: "Tanya Maharani",
+                    nickname: "Tanya",
+                    birthDate: "16 September 2005",
+                    bloodType: "O",
+                    zodiac: "Virgo",
+                    height: "162 cm"
+                }
+            ],
+            passion: [
+                {
+                    id: 1,
+                    name: "Ulfa Zhaniya",
+                    nickname: "Ulfa",
+                    birthDate: "23 Februari 2004",
+                    bloodType: "A",
+                    zodiac: "Pisces",
+                    height: "160 cm"
+                },
+                {
+                    id: 2,
+                    name: "Vita Mariana",
+                    nickname: "Vita",
+                    birthDate: "10 Juli 2003",
+                    bloodType: "B",
+                    zodiac: "Cancer",
+                    height: "163 cm"
+                },
+                {
+                    id: 3,
+                    name: "Wina Cahya",
+                    nickname: "Wina",
+                    birthDate: "5 Desember 2004",
+                    bloodType: "O",
+                    zodiac: "Sagittarius",
+                    height: "161 cm"
+                },
+                {
+                    id: 4,
+                    name: "Xenia Wijaya",
+                    nickname: "Xenia",
+                    birthDate: "28 April 2005",
+                    bloodType: "AB",
+                    zodiac: "Taurus",
+                    height: "159 cm"
+                },
+                {
+                    id: 5,
+                    name: "Yuki Tanaka",
+                    nickname: "Yuki",
+                    birthDate: "17 Mei 2003",
+                    bloodType: "A",
+                    zodiac: "Taurus",
+                    height: "164 cm"
+                },
+                {
+                    id: 6,
+                    name: "Zara Putri",
+                    nickname: "Zara",
+                    birthDate: "31 Januari 2004",
+                    bloodType: "B",
+                    zodiac: "Aquarius",
+                    height: "162 cm"
+                },
+                {
+                    id: 7,
+                    name: "Aisha Lestari",
+                    nickname: "Aisha",
+                    birthDate: "12 Agustus 2005",
+                    bloodType: "O",
+                    zodiac: "Leo",
+                    height: "160 cm"
+                },
+                {
+                    id: 8,
+                    name: "Bela Siti",
+                    nickname: "Bela",
+                    birthDate: "9 September 2003",
+                    bloodType: "A",
+                    zodiac: "Virgo",
+                    height: "165 cm"
+                },
+                {
+                    id: 9,
+                    name: "Citra Mega",
+                    nickname: "Citra",
+                    birthDate: "26 Oktober 2004",
+                    bloodType: "B",
+                    zodiac: "Scorpio",
+                    height: "161 cm"
+                },
+                {
+                    id: 10,
+                    name: "Dania Safira",
+                    nickname: "Dania",
+                    birthDate: "13 Maret 2005",
+                    bloodType: "O",
+                    zodiac: "Pisces",
+                    height: "163 cm"
+                }
+            ]
+        };
 
-    function loadYouTubeAPI() {
-      if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-      } else {
-        onYouTubeIframeAPIReady();
-      }
-    }
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('video', {
-        height: '675',
-        width: '100%',
-        videoId: '1e8b2Hcfy18',
-        playerVars: {
-          'rel': 0,
-          'autoplay': 0,
-          'cc_lang_pref': 'en',
-          'cc_load_policy': 0,
-          'color': 'red',
-          'controls': 0,
-          'disablekb': 1,
-          'enablejsapi': 1,
-          'fs': 1,
-          'hl': 'en',
-          'iv_load_policy': 3,
-          'mute': 0,
-          'playsinline': 1,
-          'origin': window.location.origin
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
+        // Render Members
+        function renderMembers(team, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+            
+            teamData[team].forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'member-card';
+                memberCard.innerHTML = `
+                    <img src="member${member.id}.png" alt="${member.name}" class="member-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22300%22%3E%3Crect fill=%22%23ddd%22 width=%22280%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%23999%22 text-anchor=%22middle%22 dy=%22.3em%22%3EMember${member.id}%3C/text%3E%3C/svg%3E'">
+                    <div class="member-info">
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-nickname">"${member.nickname}"</div>
+                        <div class="member-details">
+                            <div><strong>Lahir:</strong> ${member.birthDate}</div>
+                            <div><strong>Golongan:</strong> ${member.bloodType}</div>
+                            <div><strong>Horoskop:</strong> ${member.zodiac}</div>
+                            <div><strong>Tinggi:</strong> ${member.height}</div>
+                        </div>
+                        <div class="member-socials">
+                            <a href="#" class="social-btn social-twitter" title="Twitter">𝕏</a>
+                            <a href="#" class="social-btn social-instagram" title="Instagram">📷</a>
+                            <a href="#" class="social-btn social-tiktok" title="TikTok">♪</a>
+                            <a href="#" class="social-btn social-showroom" title="Showroom">❤️</a>
+                            <a href="#" class="social-btn social-idnlive" title="IDN Live">🔴</a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(memberCard);
+            });
         }
-      });
-    }
 
-    function onPlayerReady(event) {
-      console.log('YouTube player ready');
-      player.setVolume(100);
-      volumeControl.value = 1;
-      setInterval(updateProgress, 100);
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING) {
-        playPauseIcon.textContent = '⏸';
-      } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-        playPauseIcon.textContent = '▶';
-      }
-    }
-
-    function updateProgress() {
-      if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
-        try {
-          var currentTime = player.getCurrentTime();
-          var duration = player.getDuration();
-          
-          if (duration > 0) {
-            var progress = (currentTime / duration) * 100;
-            progressBar.style.width = progress + '%';
-          }
-        } catch (e) {
-          // Handle API not ready
+        // Switch Team
+        function switchTeam(team) {
+            // Hide all teams
+            document.querySelectorAll('.team-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected team
+            document.getElementById(team).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Render members
+            const gridMap = {
+                'dream': 'dreamGrid',
+                'love': 'loveGrid',
+                'passion': 'passionGrid'
+            };
+            renderMembers(team, gridMap[team]);
         }
-      }
-    }
 
-    function seekToPosition(event) {
-      if (player && typeof player.getDuration === 'function' && typeof player.seekTo === 'function') {
-        try {
-          var rect = event.currentTarget.getBoundingClientRect();
-          var clickX = event.clientX - rect.left;
-          var width = rect.width;
-          var percentage = clickX / width;
-          var duration = player.getDuration();
-          var seekTime = percentage * duration;
-          player.seekTo(seekTime, true);
-        } catch (e) {
-          console.log('Seek not available yet');
-        }
-      }
-    }
-
-    function togglePlay() {
-      if (player && typeof player.getPlayerState === 'function') {
-        try {
-          var state = player.getPlayerState();
-          if (state == YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-          } else {
-            player.playVideo();
-          }
-        } catch (e) {
-          console.log('Player not ready yet');
-        }
-      }
-    }
-
-    function setVolume(value) {
-      if (player && typeof player.setVolume === 'function') {
-        try {
-          player.setVolume(value * 100);
-          
-          if (value == 0) {
-            muteIcon.textContent = '🔇';
-          } else if (value < 0.5) {
-            muteIcon.textContent = '🔉';
-          } else {
-            muteIcon.textContent = '🔊';
-          }
-        } catch (e) {
-          console.log('Volume control not available yet');
-        }
-      }
-    }
-
-    function toggleMute() {
-      if (player && typeof player.isMuted === 'function') {
-        try {
-          if (player.isMuted()) {
-            player.unMute();
-            muteIcon.textContent = '🔊';
-            var volume = player.getVolume() / 100;
-            volumeControl.value = volume;
-          } else {
-            player.mute();
-            muteIcon.textContent = '🔇';
-            volumeControl.value = 0;
-          }
-        } catch (e) {
-          console.log('Mute control not available yet');
-        }
-      }
-    }
-
-    function showSettings() {
-      alert('Settings menu - Feature coming soon!');
-    }
-
-    function goFullscreen() {
-      var videoWrapper = document.querySelector('.video-wrapper');
-      if (videoWrapper.requestFullscreen) {
-        videoWrapper.requestFullscreen();
-      } else if (videoWrapper.webkitRequestFullscreen) {
-        videoWrapper.webkitRequestFullscreen();
-      } else if (videoWrapper.msRequestFullscreen) {
-        videoWrapper.msRequestFullscreen();
-      }
-    }
-
-    volumeControl.addEventListener('input', function() {
-      setVolume(this.value);
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.code === 'KeyM') {
-        toggleMute();
-      } else if (e.code === 'KeyF') {
-        goFullscreen();
-      }
-    });
-
-    window.addEventListener('load', function() {
-      loadYouTubeAPI();
-    });
-  </script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMembers('dream', 'dreamGrid');
+        });
+    </script>
 </body>
 </html>
