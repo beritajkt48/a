@@ -1340,6 +1340,14 @@
             ]
         };
 
+        function fixUrl(url) {
+    if (!url) return "#";
+    if (!url.startsWith("http")) {
+        return "https://" + url;
+    }
+    return url;
+}
+        
         // Render Members
         function renderMembers(team, gridId) {
             const grid = document.getElementById(gridId);
